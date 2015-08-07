@@ -1,6 +1,3 @@
-;(function(undefined){
-	"use strict";
-	var fs = require('fs');
-	console.log('cool beans');
-})();
+"use strict";
 
+var cli = require('./dist/cli.js');
