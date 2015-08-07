@@ -1,6 +1,11 @@
+"use strict";
 
+var commandName = process.argv[2] || "help";
 
-var command = process.argv[2] || "help";
+var command = require('./commands/'+commandName+'/index.js')(commandName,process.argv.slice(3));
 
-
-require('./commands/'+command+'/index.js')(process.argv.slice(3));
+try {
+	command();
+} catch(e) {
+	console.error(e);
+}

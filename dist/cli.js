@@ -1,7 +1,11 @@
-'use strict';
+"use strict";
 
-var command = process.argv[2] || "help";
+var commandName = process.argv[2] || "help";
 
-var remaining_commands = process.argv.slice(2);
+var command = require('./commands/' + commandName + '/index.js')(process.argv.slice(3));
 
-require('./commands/' + command + '/index.js')(remaining_commands);
+try {
+	command();
+} catch (e) {
+	throw new Error('The command sucked');
+}
