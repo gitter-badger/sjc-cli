@@ -1,0 +1,16 @@
+#!/bin/bash
+DIR=$(git rev-parse --show-toplevel)
+. $DIR/vars.sh
+if [ `boot2docker status` != "running" ]; then
+	boot2docker up
+fi
+if [ -z "$DOCKER_CERT_PATH" ]; then
+	eval "$(boot2docker shellinit)"
+	echo "run this command to set up shell for docker usage:"
+	echo 'eval $(boot2docker shellinit)'
+fi
+if [ -z "$1" ]; then
+	docker ps
+else
+	bash $DIR/.sjc/$1.sh $2 $3 $4
+fi

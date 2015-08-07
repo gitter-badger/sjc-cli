@@ -1,0 +1,9 @@
+#!/bin/bash
+DIR=$(git rev-parse --show-toplevel)
+. $DIR/vars.sh
+this_containername=highland-db-shell-$branch
+docker run -it --rm \
+	--link $db_containername:db \
+	-v $DIR/db:/db \
+	--name $this_containername \
+	mariadb sh -c 'exec mysql -h"$DB_PORT_3306_TCP_ADDR" -P"$DB_PORT_3306_TCP_PORT" --database highland -uroot -p"$DB_ENV_MYSQL_ROOT_PASSWORD"'

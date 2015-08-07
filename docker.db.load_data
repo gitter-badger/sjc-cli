@@ -1,0 +1,4 @@
+#!/bin/bash
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+. $DIR/vars.sh
+docker run --rm -v $DIR/db:/dump --link $db_containername:db $db_imagename:$branch /bin/bash -c 'cat /dump/*.SQL | /usr/bin/mysql -h $DB_PORT_3306_TCP_ADDR --database highland -u highland -p$DB_ENV_MYSQL_PASSWORD'

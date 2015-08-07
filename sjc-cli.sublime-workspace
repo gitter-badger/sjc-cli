@@ -1,0 +1,430 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"the",
+				"theport"
+			],
+			[
+				"bord",
+				"border-radius"
+			],
+			[
+				"st",
+				"stderr"
+			],
+			[
+				"pr",
+				"process"
+			],
+			[
+				"create",
+				"createElement"
+			],
+			[
+				"cre",
+				"createElement"
+			],
+			[
+				"add",
+				"addEventListener"
+			],
+			[
+				"injec",
+				"injectRows"
+			],
+			[
+				"iso",
+				"isomorph"
+			],
+			[
+				"array_re",
+				"array_reverse"
+			],
+			[
+				"parse",
+				"parse_url"
+			],
+			[
+				"err",
+				"error_image"
+			],
+			[
+				"preg",
+				"preg_match"
+			],
+			[
+				"file",
+				"fileatime"
+			],
+			[
+				"http",
+				"http_request"
+			],
+			[
+				"sizeify",
+				"sizeify-app"
+			],
+			[
+				"en",
+				"environ"
+			],
+			[
+				"s",
+				"stringify"
+			],
+			[
+				"htt",
+				"httpResponse"
+			],
+			[
+				"url",
+				"url_parts"
+			],
+			[
+				"fo",
+				"footer	Tag"
+			],
+			[
+				"reve",
+				"reverseproxy-logz"
+			],
+			[
+				"sjc",
+				"sjc-app-land"
+			],
+			[
+				"sjc-app",
+				"sjc-app-02"
+			],
+			[
+				"host",
+				"hostPort"
+			],
+			[
+				"cont",
+				"containerPort"
+			],
+			[
+				"sjc-app-a",
+				"sjc-app-land-html"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "pack",
+		"selected_items":
+		[
+			[
+				"pack",
+				"Package Control: Discover Packages"
+			]
+		],
+		"width": 467.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/smacdonald/REPOS/cli"
+	],
+	"file_history":
+	[
+		"/Users/smacdonald/REPOS/cli/package.json",
+		"/Users/smacdonald/REPOS/beautiful-letter/a1.yml",
+		"/Users/smacdonald/code/haskell/docker-haskell/examples/7.8/snap/Dockerfile",
+		"/Users/smacdonald/code/haskell/docker-haskell/examples/7.8/snap/run.sh",
+		"/Users/smacdonald/code/haskell/docker-haskell/examples/7.8/snap/server/static/screen.css",
+		"/Users/smacdonald/code/haskell/docker-haskell/examples/7.8/snap/server/snaplets/heist/templates/_login.tpl",
+		"/Users/smacdonald/code/haskell/docker-haskell/examples/7.8/snap/.ghci",
+		"/Users/smacdonald/Dropbox/_sync/seanmacdonald/Desktopz/sdfsdf.js",
+		"/Users/smacdonald/REPOS/beautiful-letter/HF-TAD.yml",
+		"/Users/smacdonald/REPOS/beautiful-letter/build",
+		"/Users/smacdonald/REPOS/beautiful-letter/hf2.yml",
+		"/Users/smacdonald/REPOS/beautiful-letter/templates/default.latex",
+		"/Users/smacdonald/REPOS/beautiful-letter/hf2.md",
+		"/Users/smacdonald/Google Drive/Clients/Highland Farms - Dev Docs/TAD.001.yml",
+		"/Users/smacdonald/REPOS/highland-farms/.sjc/tunnels.js",
+		"/Users/smacdonald/REPOS/highland-farms/.sjc/publish.sh",
+		"/Users/smacdonald/REPOS/highland-farms/.sjc/init.sh",
+		"/Users/smacdonald/REPOS/highland-farms/.sjc/list.sh",
+		"/Users/smacdonald/REPOS/highland-farms/.sjc/build.sh",
+		"/Users/smacdonald/REPOS/highland-farms/docker.app.runHard",
+		"/Users/smacdonald/REPOS/highland-farms/htdocs/prod/web/debug.php",
+		"/Users/smacdonald/REPOS/highland-farms/docker.app.run",
+		"/Users/smacdonald/REPOS/highland-farms/vars.sh",
+		"/Users/smacdonald/REPOS/highland-farms/docker.db.file",
+		"/Users/smacdonald/REPOS/highland-farms/code/debug.php",
+		"/Users/smacdonald/REPOS/highland-farms/.sjc/stop.sh",
+		"/Users/smacdonald/REPOS/highland-farms/docker.db.run",
+		"/Users/smacdonald/REPOS/highland-farms/apache2.conf",
+		"/Users/smacdonald/REPOS/highland-farms/.sjc/logs.sh",
+		"/Users/smacdonald/REPOS/highland-farms/docker.app.file",
+		"/Users/smacdonald/REPOS/highland-farms/logz/highland.HF-00.error.log",
+		"/Users/smacdonald/REPOS/highland-farms/vhost.conf",
+		"/Users/smacdonald/REPOS/highland-farms/.sjc/run.sh",
+		"/Users/smacdonald/REPOS/highland-farms/init.sh",
+		"/Users/smacdonald/REPOS/highland-farms/sjc",
+		"/Users/smacdonald/REPOS/highland-farms/.sjc/browse.sh",
+		"/Users/smacdonald/REPOS/highland-farms/.sjc/do.sh",
+		"/Users/smacdonald/REPOS/highland-farms/.sjc/check.sh",
+		"/Users/smacdonald/REPOS/highland-farms/code/js/debug.js",
+		"/Users/smacdonald/REPOS/highland-farms/code/css/debug.css",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/clark-res-normal/code/domains/clarkpacific/inc/function.sizeify.php",
+		"/Users/smacdonald/REPOS/clarkpacific/docker.mongo.run",
+		"/Users/smacdonald/REPOS/beautiful-letter/HFTAD001.yml",
+		"/Users/smacdonald/REPOS/beautiful-letter/source/HFTAD001.yml",
+		"/Users/smacdonald/REPOS/sizeify-client/composer.json",
+		"/Users/smacdonald/REPOS/sizeify-client/php/sizeify.php",
+		"/Users/smacdonald/REPOS/sizeify-client/php/composer.json",
+		"/Users/smacdonald/REPOS/sizeify-client/js/package.json",
+		"/Users/smacdonald/REPOS/sizeify-client/js/sizeify.js",
+		"/Users/smacdonald/REPOS/sizeify-client/test/urls.txt",
+		"/Users/smacdonald/REPOS/sizeify-client/js/sizeify.cli.js",
+		"/Users/smacdonald/REPOS/sizeify-client/README.md",
+		"/Users/smacdonald/REPOS/isomorph/window/document/createElement/index.js",
+		"/Users/smacdonald/REPOS/isomorph/window/document/index.js",
+		"/Users/smacdonald/REPOS/isomorph/window/index.js",
+		"/Users/smacdonald/REPOS/sizeify-client/test/test.node.js",
+		"/Users/smacdonald/REPOS/sizeify-client/js/sizeify.node.js",
+		"/Users/smacdonald/REPOS/sizeify-client/js/sizeify.browser.js",
+		"/Users/smacdonald/REPOS/sizeify-client/test/groups.json",
+		"/Users/smacdonald/REPOS/sizeify-client/test/test.browser.js",
+		"/Users/smacdonald/REPOS/isomorph/index.js",
+		"/Users/smacdonald/REPOS/sizeify-client/test/test.browser.sh",
+		"/Users/smacdonald/REPOS/sizeify-client/test/test.browser.html",
+		"/Users/smacdonald/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/smacdonald/REPOS/sizeify-client/package.json",
+		"/Users/smacdonald/REPOS/sizeify-client/sizeify.js",
+		"/Users/smacdonald/REPOS/sizeify-client/sizeify.php",
+		"/Users/smacdonald/REPOS/sizeify-client/foo.txt",
+		"/sizeify.js",
+		"/Users/smacdonald/REPOS/sizeify/src/resizer.php",
+		"/Users/smacdonald/REPOS/sizeify/sizeify.conf",
+		"/Users/smacdonald/REPOS/sizeify/vars.php",
+		"/Users/smacdonald/REPOS/sizeify/Dockerfile",
+		"/Users/smacdonald/REPOS/sizeify/run.sh",
+		"/Users/smacdonald/REPOS/sizeify/src/prevent_illegal_resize_values.php",
+		"/Users/smacdonald/REPOS/sizeify/datacontainer.sh",
+		"/Users/smacdonald/REPOS/sizeify/src/500.php",
+		"/Users/smacdonald/REPOS/sizeify/.gitignore",
+		"/Users/smacdonald/REPOS/sizeify/src/convert_URLs_To_Paths.php",
+		"/Users/smacdonald/REPOS/sizeify/src/hello.php",
+		"/Users/smacdonald/REPOS/sizeify/src/info.php",
+		"/Users/smacdonald/REPOS/sizeify/src/index.php",
+		"/Users/smacdonald/REPOS/sizeify/src/foo.html",
+		"/Users/smacdonald/REPOS/cerebrum/postgres/tip.php",
+		"/Users/smacdonald/REPOS/cerebrum/postgres/Dockerfile",
+		"/Users/smacdonald/REPOS/cerebrum/cms/Dockerfile",
+		"/Users/smacdonald/REPOS/cerebrum/cms/run.sh",
+		"/Users/smacdonald/REPOS/cerebrum/cms/cerebrum/settings.py",
+		"/Users/smacdonald/REPOS/cerebrum/postgres/run.sh",
+		"/Users/smacdonald/REPOS/cerebrum/postgres/build.sh",
+		"/Users/smacdonald/REPOS/cerebrum/postgres-client/Dockerfile",
+		"/Users/smacdonald/REPOS/dockerizing-django/postgres/Dockerfile",
+		"/Users/smacdonald/REPOS/dockerizing-django/postgres/init01.sh",
+		"/Users/smacdonald/REPOS/dockerizing-django/docker-compose.yml",
+		"/Users/smacdonald/REPOS/dockerizing-django/web/scripts/autosync.sh",
+		"/Users/smacdonald/REPOS/dockerizing-django/web/cerebrum/settings.py",
+		"/Users/smacdonald/REPOS/dockerizing-django/web/Dockerfile",
+		"/Users/smacdonald/REPOS/dockerizing-django/web/cerebrum/core/models.py",
+		"/Users/smacdonald/REPOS/cerebrum/nginx/sites-enabled/cerebrum-app",
+		"/Users/smacdonald/REPOS/cerebrum/docker-compse.yml",
+		"/Users/smacdonald/REPOS/cerebrum/nginx/Dockerfile",
+		"/Users/smacdonald/REPOS/cerebrum/web/Dockerfile",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/sentinel/index.js",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/heartbeat/package.json",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/heartbeat/index.js",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/sentinel/standalone",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/sentinel/package.json",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/sentinel/run",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/heartbeat/run",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/heartbeat/standalone",
+		"/Users/smacdonald/REPOS/stage.sjc.io/common/hosts.json",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/heartbeat/Dockerfile",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/00-node-reverseproxy/index.html",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/00-node-reverseproxy/reverseproxy.js",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/00-node-reverseproxy/index.css",
+		"/Users/smacdonald/REPOS/sizeify/ansible/packages.yml",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/oldclark/www/domains/clarkpacific.com/web/blog/wp-includes/js/tinymce/plugins/media/editor_plugin.js",
+		"/Users/smacdonald/REPOS/sizeify/ansible/app.yml",
+		"/Users/smacdonald/REPOS/highland-farms/htdocs/prod/web/class/modules/home/home.manager.class.php",
+		"/Users/smacdonald/REPOS/stage.sjc.io/Dockerrun.aws.json",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/00-node-reverseproxy/Dockerfile",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/00-node-reverseproxy/run",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/clarkmaria/run",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/clarkmaria/load_data",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/oldclark/www/domains/clarkpacific.com/web/vars.php",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/clarkmaria/Dockerfile",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/clarkmaria/build",
+		"/Users/smacdonald/REPOS/stage.sjc.io/containers/oldclark/www/domains/clarkpacific.com/web/parseURL.php"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"cel",
+			"cell",
+			"all the tables are needed for the “manage flyers” CMS",
+			"Application",
+			"cm",
+			"abs",
+			"isom",
+			"preve",
+			"do_404",
+			"404",
+			"auto",
+			"  ",
+			"\n    -",
+			": 128,"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			" ",
+			"  ",
+			" ",
+			": 384,"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "sjc-cli.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 278.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

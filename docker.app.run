@@ -1,0 +1,16 @@
+#!/bin/bash
+DIR=$(git rev-parse --show-toplevel)
+. $DIR/vars.sh
+docker stop $app_containername 2> /dev/null
+docker rm $app_containername 2> /dev/null
+docker run -d -P \
+	-e branch=$branch \
+	-e appname=$appname \
+	-v $DIR/code:/var/www/html \
+	-v $DIR/logz:/logz \
+	-v $DIR/vhost.conf:/etc/apache2/sites-available/000-default.conf \
+	--link $db_containername:db \
+	--name=$app_containername \
+	--label=io.sjc.branch=$branch \
+	--label=io.sjc.appname=$appname \
+	$app_imagename:$branch

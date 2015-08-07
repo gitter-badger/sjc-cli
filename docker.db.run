@@ -1,0 +1,20 @@
+#!/bin/bash
+DIR=$(git rev-parse --show-toplevel)
+. $DIR/vars.sh
+RUNNING=$(docker inspect --format="{{ .State.Running }}" $db_containername 2> /dev/null)
+if [ "$RUNNING" == "true" ]; then
+  echo "container is already running. skipping this step."
+else
+	docker rm $db_containername 2> /dev/null
+	docker run -d \
+		-v $DIR/db:/dump \
+		--label=io.sjc.branch=$branch \
+		-e MYSQL_ROOT_PASSWORD=qweruiop \
+		-e MYSQL_USER=$MUSER \
+		-e MYSQL_PASSWORD=$MPASS \
+		-e MYSQL_DATABASE=$MDB \
+		--name $db_containername \
+		$db_imagename:$branch
+	echo "waiting for the db server to boot up..."
+	sleep 10
+fi
