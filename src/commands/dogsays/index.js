@@ -17,7 +17,7 @@ module.exports = function(commandName,args){
 			var error_message = 'Dogs dont say ' + inValidDogWords.join(' or ');
 			throw Error(error_message);
 		} else {
-			console.log('🐶 says ' + args.map(barkIt) );
+			console.log('🐶  says ' + args.map(barkIt) );
 		}
 	};
 };

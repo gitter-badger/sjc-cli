@@ -6,6 +6,9 @@
   "scripts": {
     "test": "jest"
   },
+  "bin": {
+    "sjc": "cli.js"
+  },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "testFileExtensions": [
@@ -40,5 +43,8 @@
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.0",
     "jest-cli": "^0.4.18"
+  },
+  "dependencies": {
+    "colors": "^1.1.2"
   }
 }

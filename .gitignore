@@ -1,2 +1,3 @@
-logz
+logz/
 node_modules/
+*.sublime-*

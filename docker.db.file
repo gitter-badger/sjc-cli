@@ -1,7 +1,0 @@
-FROM mariadb
-MAINTAINER Sean Macdonald <sean@crazyhorsecoding.com>
-COPY db /dump
-ENV TERM dumb
-VOLUME ["/dump"]
-LABEL io.sjc.serviceType="db server"
-LABEL io.sjc.appname="highlandfarms"
