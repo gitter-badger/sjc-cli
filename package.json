@@ -50,6 +50,8 @@
     "karma-jasmine": "^0.3.6"
   },
   "dependencies": {
-    "colors": "^1.1.2"
+    "bash-color": "0.0.3",
+    "colors": "^1.1.2",
+    "rot": "^0.1.0"
   }
 }
