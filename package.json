@@ -29,6 +29,8 @@
   "homepage": "https://github.com/stjosephcontent/sjc-cli#README",
   "devDependencies": {
     "gulp": "^3.9.0",
+    "gulp-jasmine": "^2.0.1",
+    "gulp-jshint": "^1.11.2",
     "jasmine": "^2.3.2",
     "jasmine-core": "^2.3.4",
     "jshint": "^2.8.0"
@@ -39,11 +41,11 @@
     "rot": "^0.1.0"
   },
   "jshintConfig": {
+    "esnext": true,
     "node": true,
     "jasmine": true,
     "globals": {
       "Promise": true
     }
-
   }
 }

@@ -29,6 +29,6 @@ describe(commandName+" suite",function(){
             expect(stdout).toMatch(/fun1/);
             done();
         });
-    },vars.test.timeout);
+    },3000);
 
 });

@@ -31,6 +31,7 @@ function main(){
 	switch (submodulename) {
 		case 'some-illegal-submodule-name':
 		vars.error = new Error('Submodule exists but cannot be legally invoked');
+		break;
 		default:
 		submodule(submodulename,submoduleargs,vars).then(good).catch(bad);
 		break;
