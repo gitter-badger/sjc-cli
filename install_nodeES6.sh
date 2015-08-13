@@ -6,4 +6,4 @@ echo 'installing nodeES6 in /usr/local/bin/'
 sudo -H cp nodeES6 /usr/local/bin/
 sudo -H chmod +x /usr/local/bin/nodeES6
 sudo -H npm install --global n
-sudo -H n 0.12.7
+sudo -H n io 3.0.0

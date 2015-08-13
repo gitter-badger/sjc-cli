@@ -11,8 +11,5 @@ vars.get = function(k){
 vars.set = function(k,v){
 	vars[k] = v;
 };
-vars.rootDirectory = function(){
-	return vars.rootdir.replace('~',process.env.HOME);
-};
 
 module.exports = vars;

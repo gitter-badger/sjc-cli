@@ -1,9 +1,9 @@
 "use strict";
 
 /**
- * An example of a pipable command that does the outputting.
+ * An example of a command that uses line buffering to output it's data, so that it can play nice with unix pipes
  * @arg {Number} - The number of weird facts you wish to display
- * returns {String} - 1 weird fact per second
+ * returns {String} - 4 weird facts per second
  */
 
 var facts = [
@@ -40,7 +40,7 @@ module.exports = function(commandName,args){
 		if (Number.isNaN(n)) {
 			reject(Error('Argument must be a number'));
 		} else {
-			var ms = 300;
+			var ms = 250;
 			var funcs = [];
 			var showFact = function(fact,i){
 				console.log(fact);

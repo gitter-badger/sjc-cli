@@ -8,22 +8,6 @@ var fs = require('fs'),
 	submoduleargs = process.argv.slice(3),
 	legal_submodule_names=[];
 
-fs.readdir( __dirname + '/commands',function(err,files){
-	if (err) {
-		throw new CLIError(err);
-	}
-	legal_submodule_names = files.map(function(fylename){
-		return fylename.replace(/\.js$/,'');
-	});
-	if (legal_submodule_names.indexOf(submodulename) > -1) {
-		submodule = require('./commands/'+submodulename);
-	} else {
-		vars.error = new Error('Submodule ' + submodulename + ' does not exist');
-		submodule = require('./commands/help');
-	}
-	main();
-});
-
 function good(stuff){
 	if (typeof stuff !== 'undefined') {
 		console.log(stuff);	
@@ -52,3 +36,19 @@ function main(){
 		break;
 	}
 }
+
+fs.readdir( __dirname + '/commands',function(err,files){
+	if (err) {
+		throw new CLIError(err);
+	}
+	legal_submodule_names = files.map(function(fylename){
+		return fylename.replace(/\.js$/,'');
+	});
+	if (legal_submodule_names.indexOf(submodulename) > -1) {
+		submodule = require('./commands/'+submodulename);
+	} else {
+		vars.error = new Error('Submodule ' + submodulename + ' does not exist');
+		submodule = require('./commands/help');
+	}
+	main();
+});

@@ -16,7 +16,7 @@ module.exports = function(commandName,args){
 			reject(Error('This command needs at least one argument'));
 		}
 		var barkIt = function(word){
-			return word.toUpperCase() + '! ';
+			return word.toUpperCase() + '!';
 		};
 		var inValidDogWords = args.filter(function(word){
 			return ( valid_words.indexOf(word) === -1);
@@ -25,7 +25,7 @@ module.exports = function(commandName,args){
 			var error_message = 'Dogs dont say ' + inValidDogWords.join(' or ');
 			reject(Error(error_message));
 		} else {
-			resolve('🐶  says ' + args.map(barkIt));
+			resolve(['🐶  says'].concat(args.map(barkIt)).join(' '));
 		}		
 	});
 };

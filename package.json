@@ -4,54 +4,46 @@
   "description": "command-line utility for SJC developers and ops engineers",
   "main": "cli.js",
   "scripts": {
-    "test": "jest"
+    "test": "jasmine"
   },
   "bin": {
     "sjc": "cli.js"
   },
-  "jest": {
-    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "testFileExtensions": [
-      "es6",
-      "js"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "es6"
-    ],
-    "testDirectoryName": "tests"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/sjc/cli.git"
+    "url": "git+https://github.com/stjosephcontent/sjc-cli.git"
   },
   "keywords": [
     "sjc",
     "cli",
     "dev",
-    "ops"
+    "ops",
+    "container",
+    "orchestration"
   ],
-  "author": "Sean Macdonald <sean@crazyhorsecoding.com>",
+  "author": "Sean Macdonald <sean.macdonald@stjoseph.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/sjc/cli/issues"
+    "url": "https://github.com/stjosephcontent/sjc-cli/issues"
   },
-  "homepage": "https://gitlab.com/sjc/cli#README",
+  "homepage": "https://github.com/stjosephcontent/sjc-cli#README",
   "devDependencies": {
-    "babel-jest": "^5.3.0",
     "gulp": "^3.9.0",
-    "gulp-babel": "^5.2.0",
+    "jasmine": "^2.3.2",
     "jasmine-core": "^2.3.4",
-    "jest-cli": "^0.4.18",
-    "karma": "^0.13.8",
-    "karma-chrome-launcher": "^0.2.0",
-    "karma-firefox-launcher": "^0.1.6",
-    "karma-jasmine": "^0.3.6"
+    "jshint": "^2.8.0"
   },
   "dependencies": {
     "bash-color": "0.0.3",
     "colors": "^1.1.2",
     "rot": "^0.1.0"
+  },
+  "jshintConfig": {
+    "node": true,
+    "jasmine": true,
+    "globals": {
+      "Promise": true
+    }
+
   }
 }

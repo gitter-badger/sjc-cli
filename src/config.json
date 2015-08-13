@@ -2,6 +2,9 @@
 	"soundEffects": {
 		"volume": 0.2
 	},
+	"test": {
+		"timeout": 100
+	},
 	"message": {
 		"error": {
 			"char": "❗",

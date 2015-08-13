@@ -38,8 +38,8 @@ module.exports = function(commandName,args){
 				return ( (docblockBegin > -1 && lineNumber > docblockBegin) && (!docblockEnd) );
 			}).map(function(line){
 				var niceLine = line;
-				var niceLine = niceLine.replace(/^[\s\*]+/,'');
-				var niceLine = niceLine.replace(/@\w+/, colour.purple('$&') );
+				niceLine = niceLine.replace(/^[\s\*]+/,'');
+				niceLine = niceLine.replace(/@\w+/, colour.purple('$&') );
 				return niceLine;
 			}).filter(function(line){ return /\w/.test(line); }).join("\n");
 			return docblock;
