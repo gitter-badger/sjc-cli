@@ -1,9 +1,10 @@
 var commandName = 'dogsays';
 
 describe(commandName+" suite",function(){
-
-    var command = require(__dirname+'/../../src/commands/'+commandName+'/index.js').bind(command,commandName),
-    vars = require(__dirname+'/../../src/vars.js');
+    
+    var scope = require(__dirname+'/../../src/scope.js');
+    scope.args[0] = commandName;
+    var command = require(__dirname+'/../../src/commands/'+commandName+'/index.js').bind(command,scope);
 
     it('should say WOOF! WOOF!', function(done) {
         var args = ['woof','woof'];

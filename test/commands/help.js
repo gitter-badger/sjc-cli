@@ -1,8 +1,10 @@
 var commandName = 'help';
 
 describe(commandName+" suite",function(){
-    var command = require(__dirname+'/../../src/commands/'+commandName+'/index.js').bind(command,commandName),
-    vars = require(__dirname+'/../../src/vars.js');
+    
+    var scope = require(__dirname+'/../../src/scope.js');
+    scope.args[0] = commandName;
+    var command = require(__dirname+'/../../src/commands/'+commandName+'/index.js').bind(command,scope);
 
     it('shows general help',function(done){
         var args = [];
