@@ -7,6 +7,8 @@
  * @example cat /etc/passwd | sjc rot13
  */
 
+var Command = require('../../Command.js');
+
 var rot = require('rot');
 
 var run = function(good,bad) {
@@ -17,6 +19,6 @@ var run = function(good,bad) {
     }
 };
 
-module.exports = function(Command,scope) {
+module.exports = function(scope) {
     return new Command(scope,run);
 };

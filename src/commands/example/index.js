@@ -9,6 +9,8 @@
  * @example: sjc throw
  */
 
+var Command = require('../../Command.js');
+
 var run = function(good,bad) {
 
     /**
@@ -26,7 +28,7 @@ var run = function(good,bad) {
 };
 
 
-module.exports = function(Command,scope) {
+module.exports = function(scope) {
 
     /**
      * Command is the Command.js constructor
@@ -34,8 +36,10 @@ module.exports = function(Command,scope) {
      * we can modify it as desired:
      */
 
-    scope.favouriteColour = 'blue';
-    scope.soundEffects.volume = 0.5;
+    scope.userPreferences = {
+        favouriteColour: 'blue'
+    };
+    scope.conf.soundEffects.volume = 0.5;
 
     return new Command(scope,run);
 };

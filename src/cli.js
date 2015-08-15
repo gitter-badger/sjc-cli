@@ -2,20 +2,14 @@
 
 var fs = require('fs'),
     CLIError = require('./error.js'),
-    conf = require('./vars.js'),
+    scope = require('./scope.js'),
     commandName = process.argv[2] || "help",
     command  = function() {},   // jscs:disable requireSpacesInFunction, requireSpaceBeforeBlockStatements
-    CommandConstructor = require('./Command.js'),
     args = process.argv.slice(3),
-    legalCommandNames = [],
-    scope = {
-        "conf": conf,
-        "args": args,
-        "commandName": commandName
-    };
+    legalCommandNames = [];
 
 function good(stuff) {
-    //  how do we handle good return data from commands?
+    //  handle good return data
     switch (typeof stuff) {
         case 'function':
             stuff();
@@ -29,7 +23,7 @@ function good(stuff) {
 }
 
 function bad(errorOrString) {
-    //  how do we handle error data from commands?
+    //  handle error data from commands
     var error;
     if (typeof errorOrString === 'string') {
         error = new Error(errorOrString);
@@ -43,7 +37,7 @@ function bad(errorOrString) {
 }
 
 function main() {
-    command(CommandConstructor,scope).then(good).catch(bad);
+    command(scope).then(good).catch(bad);
 }
 
 fs.readdir( __dirname + '/commands',function(err,files){

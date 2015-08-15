@@ -8,6 +8,8 @@
  * @example sjc help deploy
  */
 
+var Command = require('../../Command.js');
+
 var fancy = require('../../fancy.js'),
     fs = require('fs'),
     colour = require('bash-color');
@@ -75,6 +77,6 @@ var run = function(resolve,reject) {
     }
 };
 
-module.exports = function(Command,scope) {
+module.exports = function(scope) {
     return new Command(scope,run);
 };

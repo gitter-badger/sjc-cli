@@ -7,6 +7,8 @@
  * @note: this function has side effects: it console.logs.
  */
 
+var Command = require('../../Command.js');
+
 var facts = [
     'Russia has a larger surface area than Pluto.',
     'Oxford University is older than the Aztec Empire.',
@@ -54,6 +56,6 @@ var run = function(good,bad) {
     }
 };
 
-module.exports = function(Command,scope) {
+module.exports = function(scope) {
     return new Command(scope,run);
 };
