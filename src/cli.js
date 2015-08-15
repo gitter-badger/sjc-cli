@@ -2,17 +2,17 @@
 
 var fs = require('fs'),
 	CLIError = require('./error.js'),
-	vars = require('./vars.js'),
-	submodulename = process.argv[2] || "help",
-	submodule = function(){},
-	submoduleargs = process.argv.slice(3),
-	legal_submodule_names=[];
+	conf = require('./vars.js'),
+	commandName = process.argv[2] || "help",
+	command  = function(){},
+	args = process.argv.slice(3),
+	legalCommandNames = [];
 
 function good(stuff){
 	if (typeof stuff !== 'undefined') {
-		console.log(stuff);	
+		console.log(stuff);
 	}
-};
+}
 
 function bad(errorOrString){
 	var error;
@@ -25,31 +25,23 @@ function bad(errorOrString){
 		console.error(errorOrString);
 	}
 	throw new CLIError(error);
-};
+}
 
 function main(){
-	switch (submodulename) {
-		case 'some-illegal-submodule-name':
-		vars.error = new Error('Submodule exists but cannot be legally invoked');
-		break;
-		default:
-		submodule(submodulename,submoduleargs,vars).then(good).catch(bad);
-		break;
-	}
+	command(commandName,args,conf).then(good).catch(bad);
 }
 
 fs.readdir( __dirname + '/commands',function(err,files){
 	if (err) {
 		throw new CLIError(err);
 	}
-	legal_submodule_names = files.map(function(fylename){
+	legalCommandNames = files.map(function(fylename){
 		return fylename.replace(/\.js$/,'');
 	});
-	if (legal_submodule_names.indexOf(submodulename) > -1) {
-		submodule = require('./commands/'+submodulename);
+	if (legalCommandNames.indexOf(commandName) > -1) {
+		command = require('./commands/' + commandName);
 	} else {
-		vars.error = new Error('Submodule ' + submodulename + ' does not exist');
-		submodule = require('./commands/help');
+		throw new CLIError('command  ' + commandName + ' does not exist');
 	}
 	main();
 });

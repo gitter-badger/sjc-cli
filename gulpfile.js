@@ -1,13 +1,12 @@
 "use strict";
 
-const CODE_GLOBS = ['src/**/*.js','*.js'];
-const SPEC_GLOBS = ['spec/**/*.test.js'];
+var CODE_GLOBS = ['src/**/*.js'];
+var SPEC_GLOBS = ['spec/**/*.test.js'];
 
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var packageJSON = require('./package.json');
 var jasmine = require('gulp-jasmine');
-
 
 gulp.task('jshint', function(){
     gulp.src(CODE_GLOBS)

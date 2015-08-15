@@ -1,3 +1,0 @@
-#!/bin/bash
-
-eval "$(n io bin 3.0.0) --harmony $@"

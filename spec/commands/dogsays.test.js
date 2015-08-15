@@ -1,10 +1,11 @@
 var commandName = 'dogsays';
 
 describe(commandName+" suite",function(){
+
     var command = require(__dirname+'/../../src/commands/'+commandName+'/index.js').bind(command,commandName),
     vars = require(__dirname+'/../../src/vars.js');
 
-    it('should say WOOF! WOOF!',function(done){
+    it('should say WOOF! WOOF!', function(done) {
         var args = ['woof','woof'];
         command(args,vars).then(function(bark){
             expect(bark).toMatch(/WOOF! WOOF!/);

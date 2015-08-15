@@ -11,9 +11,9 @@ var spawn = require('child_process').spawn,
 const CLIP_ROOT = __dirname + '/assets/';
 
 var playsound = function(clipname){
-	var clip_path = CLIP_ROOT + clipname;
+	var clipPath = CLIP_ROOT + clipname;
 	var command = '/usr/bin/env';
-	var args = ['afplay','-v', vars.soundEffects.volume ,clip_path];
+	var args = ['afplay','-v', vars.soundEffects.volume ,clipPath];
 	var options = {
 		stdio: ['ignore','ignore','ignore'],
 		detached: true

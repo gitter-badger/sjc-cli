@@ -11,7 +11,7 @@
 
 module.exports = function(commandName,args){
 	return new Promise(function(resolve,reject){
-		var valid_words = ['bark','ruff','woof'];
+		var validWords = ['bark','ruff','woof'];
 		if (!args.length) {
 			reject(Error('This command needs at least one argument'));
 		}
@@ -19,11 +19,11 @@ module.exports = function(commandName,args){
 			return word.toUpperCase() + '!';
 		};
 		var inValidDogWords = args.filter(function(word){
-			return ( valid_words.indexOf(word) === -1);
+			return ( validWords.indexOf(word) === -1);
 		});
 		if (inValidDogWords.length) {
-			var error_message = 'Dogs dont say ' + inValidDogWords.join(' or ');
-			reject(Error(error_message));
+			var errorMessage = 'Dogs dont say ' + inValidDogWords.join(' or ');
+			reject(Error(errorMessage));
 		} else {
 			resolve(['🐶  says'].concat(args.map(barkIt)).join(' '));
 		}		

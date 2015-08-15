@@ -13,15 +13,19 @@ describe(commandName+" suite",function(){
             done();
         }).catch(function(err){
             //  fail on purpose
-            expect('response').toNotBe('an error');
+            expect('response').not.toBe('an error');
             done();
         });
     },vars.test.timeout);
 
+    
     it('rot13-encodes three lines when piped in like "cat /etc/passwd | sjc rot13"',function(done){
         var proc = child_process.exec('cat '+__dirname+'/rot13.test.txt | sjc rot13',{cwd:__dirname},function (error, stdout, stderr) {
+
+            console.log(stdout,stderr,error);
+
             if (error) {
-                expect(error).toNotBe('an error');
+                expect(error).not.toBe('an error');
             }
             if (stderr) {
                 console.error(stderr);
@@ -30,5 +34,6 @@ describe(commandName+" suite",function(){
             done();
         });
     },3000);
+    
 
 });

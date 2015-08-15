@@ -1,6 +1,6 @@
 "use strict";
 
-/**
+/** User Documentation
  * Outputs help documentation by parsing docblock comments in each of the commands subfolders.
  * @arg {String} commmandName - The command you want help on.
  * @returns {String} - Help information on the specified command, or general help
