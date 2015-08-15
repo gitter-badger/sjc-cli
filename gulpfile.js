@@ -1,21 +1,25 @@
 "use strict";
 
 var CODE_GLOBS = ['src/**/*.js'];
-var SPEC_GLOBS = ['spec/**/*.test.js'];
+var SPEC_GLOBS = ['test/**/*.test.js'];
 
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var packageJSON = require('./package.json');
 var jasmine = require('gulp-jasmine');
+var jscs = require('gulp-jscs');
 
-gulp.task('jshint', function(){
+gulp.task('lint', function(){
     gulp.src(CODE_GLOBS)
         .pipe(jshint(packageJSON.jshintConfig))
-        .pipe(jshint.reporter('default', { verbose: false }));
+        .pipe(jshint.reporter('default', { verbose: false }))
+        .pipe(jscs({
+            "preset": "lint/jscs.javascript.node.json"
+        }));
 });
 
-gulp.task('jasmine',function(){
+gulp.task('test',function(){
     gulp.src(SPEC_GLOBS).pipe(jasmine());
 });
 
-gulp.task('default', ['jshint', 'jasmine']);
+gulp.task('default', ['lint', 'test']);

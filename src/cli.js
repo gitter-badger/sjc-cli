@@ -4,7 +4,7 @@ var fs = require('fs'),
 	CLIError = require('./error.js'),
 	conf = require('./vars.js'),
 	commandName = process.argv[2] || "help",
-	command  = function(){},
+	command  = function() {},	// jscs:disable requireSpacesInFunction, requireSpaceBeforeBlockStatements
 	args = process.argv.slice(3),
 	legalCommandNames = [];
 
