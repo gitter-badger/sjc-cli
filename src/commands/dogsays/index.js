@@ -9,23 +9,29 @@
  * @example sjc dogsays meeow
  */
 
-module.exports = function(commandName,args) {
-    return new Promise(function(resolve,reject) {
-        var validWords = ['bark','ruff','woof'];
-        if (!args.length) {
-            reject(Error('This command needs at least one argument'));
-        }
-        var barkIt = function(word) {
-            return word.toUpperCase() + '!';
-        };
-        var inValidDogWords = args.filter(function(word) {
+var Command = require('../Command.js');
+
+const dogChar = '🐕';
+const validWords = ['bark','ruff','woof'];
+var barkIt = function(word) {
+    return word.toUpperCase() + '!';
+};
+
+module.exports = function(scope){
+    var run = function(good,bad) {
+        var words = this.args;
+        var inValidDogWords = words.filter(function(word) {
             return ( validWords.indexOf(word) === -1);
+        }).filter(function(word) {
+            return (word);
         });
-        if (inValidDogWords.length) {
-            var errorMessage = 'Dogs dont say ' + inValidDogWords.join(' or ');
-            reject(Error(errorMessage));
+        if (!words.length) {
+            bad(Error('This command needs at least one argument'));
+        } else if (inValidDogWords.length) {
+            bad(Error('Dogs dont say ' + inValidDogWords.join(' or ')));
         } else {
-            resolve(['🐶  says'].concat(args.map(barkIt)).join(' '));
+            good([dogChar + '  says'].concat(words.map(barkIt)).join(' '));
         }
-    });
+    };
+    return new Command(scope,run);
 };

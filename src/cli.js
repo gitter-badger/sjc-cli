@@ -6,15 +6,20 @@ var fs = require('fs'),
     commandName = process.argv[2] || "help",
     command  = function() {},   // jscs:disable requireSpacesInFunction, requireSpaceBeforeBlockStatements
     args = process.argv.slice(3),
-    legalCommandNames = [];
+    legalCommandNames = [],
+    scope = {
+        "conf": conf,
+        "args": args,
+        "commandName": commandName
+    };
 
-function good(stuff){
+function good(stuff) {
     if (typeof stuff !== 'undefined') {
         console.log(stuff);
     }
 }
 
-function bad(errorOrString){
+function bad(errorOrString) {
     var error;
     if (typeof errorOrString === 'string') {
         error = new Error(errorOrString);
@@ -27,8 +32,8 @@ function bad(errorOrString){
     throw new CLIError(error);
 }
 
-function main(){
-    command(commandName,args,conf).then(good).catch(bad);
+function main() {
+    command(scope).then(good).catch(bad);
 }
 
 fs.readdir( __dirname + '/commands',function(err,files){
