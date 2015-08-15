@@ -9,23 +9,23 @@
  * @example sjc dogsays meeow
  */
 
-module.exports = function(commandName,args){
-	return new Promise(function(resolve,reject){
-		var validWords = ['bark','ruff','woof'];
-		if (!args.length) {
-			reject(Error('This command needs at least one argument'));
-		}
-		var barkIt = function(word){
-			return word.toUpperCase() + '!';
-		};
-		var inValidDogWords = args.filter(function(word){
-			return ( validWords.indexOf(word) === -1);
-		});
-		if (inValidDogWords.length) {
-			var errorMessage = 'Dogs dont say ' + inValidDogWords.join(' or ');
-			reject(Error(errorMessage));
-		} else {
-			resolve(['🐶  says'].concat(args.map(barkIt)).join(' '));
-		}		
-	});
+module.exports = function(commandName,args) {
+    return new Promise(function(resolve,reject) {
+        var validWords = ['bark','ruff','woof'];
+        if (!args.length) {
+            reject(Error('This command needs at least one argument'));
+        }
+        var barkIt = function(word) {
+            return word.toUpperCase() + '!';
+        };
+        var inValidDogWords = args.filter(function(word) {
+            return ( validWords.indexOf(word) === -1);
+        });
+        if (inValidDogWords.length) {
+            var errorMessage = 'Dogs dont say ' + inValidDogWords.join(' or ');
+            reject(Error(errorMessage));
+        } else {
+            resolve(['🐶  says'].concat(args.map(barkIt)).join(' '));
+        }
+    });
 };

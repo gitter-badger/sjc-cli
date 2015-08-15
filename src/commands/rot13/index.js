@@ -9,28 +9,29 @@
 
 var rot = require('rot'), fancy = require('../../fancy');
 
-module.exports = function(commandName,args){
-	return new Promise(function(resolve,reject){
-		switch (process.stdin.isTTY) {
-			case true:
-			//	interactive shell
-			if (args.length) {
-				resolve(rot(args[0]));
-			} else {
-				reject(Error('You didnt send enough arguments'));
-			}
-			break;
-			default:
-			//	content is piped
-			process.stdin.resume();
-			process.stdin.setEncoding('utf8');
-			process.stdin.on('data', function(data) {
-				process.stdout.write( rot(data) );
-			});	
-			process.stdin.on('end', function(data) {
-				//resolve( fancy('all done!','success') );
-				resolve();
-			});
-		}
-	});
+module.exports = function(commandName,args) {
+    return new Promise(function(resolve,reject) {
+        switch (process.stdin.isTTY) {
+            case true:
+                //  interactive shell
+                if (args.length) {
+                    resolve(rot(args[0]));
+                } else {
+                    reject(Error('You didnt send enough arguments'));
+                }
+            break;
+            default:
+                //  content is piped
+                process.stdin.resume();
+                process.stdin.setEncoding('utf8');
+                process.stdin.on('data', function(data) {
+                    process.stdout.write( rot(data) );
+                });
+                process.stdin.on('end', function(data) {
+                    //resolve( fancy('all done!','success') );
+                    resolve();
+                });
+            break;
+        }
+    });
 };
