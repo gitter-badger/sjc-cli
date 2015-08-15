@@ -18,12 +18,12 @@ function good(stuff) {
     //  how do we handle good return data from commands?
     switch (typeof stuff) {
         case 'function':
-        stuff();
+            stuff();
         break;
         case 'number':
         case 'string':
         case 'object':
-        console.log(stuff);
+            console.log(stuff);
         break;
     }
 }

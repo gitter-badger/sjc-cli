@@ -13,10 +13,10 @@ var bad = console.error;
 
 //  quick and dirty polyfill
 if (!Object.assign) {
-    Object.assign = function(a,b){
+    Object.assign = function(a,b) {
         var c = JSON.parse(JSON.stringify(b));
         return c;
-    };    
+    };
 }
 
 module.exports = function(scope,run) {
@@ -27,13 +27,13 @@ module.exports = function(scope,run) {
             var exitcode = 0;
             process.stdin.resume();
             process.stdin.setEncoding('utf8');
-            process.stderr.on('data', function() {
+            process.stderr.on('data', function(err) {
                 exitcode = 1;
-                bad(data);
+                bad(err);
             });
             process.stdin.on('data', function(lines) {
-                lines.split("\n").forEach(function(line){
-                    var newScope = Object.assign({},scope);
+                lines.split("\n").forEach(function(line) {
+                    var newScope = Object.assign({}, scope);
                     newScope.args = [line].concat(scope.args);
                     run.call(newScope,good,bad);
                 });

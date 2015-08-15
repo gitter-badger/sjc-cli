@@ -13,7 +13,7 @@ const dogChar = '🐕 ';
 const validWords = ['bark','ruff','woof'];
 var barkIt = function(word) {
     return word.toUpperCase() + '!';
-};    
+};
 var run = function(good,bad) {
     var words = this.args;
     var inValidDogWords = words.filter(function(word) {
@@ -30,6 +30,4 @@ var run = function(good,bad) {
     }
 };
 
-module.exports = function(Command,scope){
-    return new Command(scope,run);
-};
+module.exports = function(Command,scope) { return new Command(scope,run); };

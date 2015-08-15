@@ -12,7 +12,7 @@ var fancy = require('../../fancy.js'),
     fs = require('fs'),
     colour = require('bash-color');
 
-var run = function(resolve,reject){
+var run = function(resolve,reject) {
     // the default invocation is "sjc help help", which produces general help
     var helpwhat = this.args[0] || 'help';
 

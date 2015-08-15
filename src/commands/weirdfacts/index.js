@@ -36,7 +36,7 @@ var facts = [
 
 const ms = 250;
 
-var run = function(good,bad){
+var run = function(good,bad) {
     var n = this.args[0] || facts.length;
     n = Number(n);
     if (Number.isNaN(n)) {
@@ -54,6 +54,6 @@ var run = function(good,bad){
     }
 };
 
-module.exports = function(Command,scope){
+module.exports = function(Command,scope) {
     return new Command(scope,run);
 };
