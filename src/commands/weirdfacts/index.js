@@ -3,7 +3,8 @@
 /**
  * An example of a command that uses line buffering to output it's data, so that it can play nice with unix pipes
  * @arg {Number} - The number of weird facts you wish to display
- * returns {String} - 4 weird facts per second
+ * @returns {String} - 4 weird facts per second
+ * @note: this function has side effects: it console.logs.
  */
 
 var facts = [
@@ -33,24 +34,26 @@ var facts = [
     'Maine is the closest US state to Africa.'
 ];
 
-module.exports = function(commandName,args) {
-    return new Promise(function(resolve,reject) {
-        var n = args[0] || facts.length;
-        n = Number(n);
-        if (Number.isNaN(n)) {
-            reject(Error('Argument must be a number'));
-        } else {
-            var ms = 250;
-            var funcs = [];
-            var showFact = function(fact,i) {
-                console.log(fact);
-                if (n - i <= 1) {
-                    resolve();
-                }
-            };
-            facts.slice(0,n).forEach(function(fact,i) {
-                setTimeout(showFact.bind(null,fact,i), i * ms);
-            });
-        }
-    });
+const ms = 250;
+
+var run = function(good,bad){
+    var n = this.args[0] || facts.length;
+    n = Number(n);
+    if (Number.isNaN(n)) {
+        bad(Error('Argument must be a number'));
+    } else {
+        var showFact = function(fact,i) {
+            console.log(fact);
+            if (n - i <= 1) {
+                good();
+            }
+        };
+        facts.slice(0,n).forEach(function(fact,i) {
+            setTimeout(showFact.bind(null,fact,i), i * ms);
+        });
+    }
+};
+
+module.exports = function(Command,scope){
+    return new Command(scope,run);
 };
