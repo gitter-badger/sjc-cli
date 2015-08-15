@@ -1,3 +1,5 @@
 logz/
 node_modules/
 *.sublime-*
+.dockerignore
+.npmignore

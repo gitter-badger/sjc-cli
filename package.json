@@ -1,10 +1,11 @@
 {
   "name": "@sean9999/sjc-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "command-line utility for SJC developers and ops engineers",
-  "main": "src/cli.js",
+  "main": "cli.sh",
   "scripts": {
-    "test": "jasmine"
+    "test": "gulp jasmine",
+    "lint": ""
   },
   "bin": {
     "sjc": "cli.sh"
@@ -38,6 +39,8 @@
   "dependencies": {
     "bash-color": "0.0.3",
     "colors": "^1.1.2",
+    "dockerode": "^2.2.2",
+    "nodegit": "^0.4.1",
     "rot": "^0.1.0"
   },
   "jshintConfig": {
