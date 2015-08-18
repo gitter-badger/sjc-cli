@@ -1,12 +1,12 @@
 "use strict";
 
-var docker = require('../../docker.js');
-var container = d.getContainer('10e2e55276ab');
+var d = require('../../docker'),
+    container = d.getContainer('e08831d4b3ba'),
+    git = require('../../git');
 
 var run = function(good,bad){
     container.inspect(function (err, containerdata) {
         if (err) {
-            console.error(err);
             bad(err);
         } else {
             git.currentBranch(function(err, branch){
@@ -17,9 +17,11 @@ var run = function(good,bad){
                         ports: JSON.stringify(containerdata.NetworkSettings.Ports),
                         gitBranch: branch.trim()
                     };
-                    good(r);                    
+                    good(r);
                 }
             });
         }
     });
 };
+
+module.exports = run;

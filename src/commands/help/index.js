@@ -9,7 +9,6 @@
  */
 
 var Command = require('../../Command.js');
-
 var fancy = require('../../fancy.js'),
     fs = require('fs'),
     colour = require('bash-color');

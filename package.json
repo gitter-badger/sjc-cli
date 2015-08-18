@@ -41,6 +41,7 @@
     "colors": "^1.1.2",
     "dockerode": "^2.2.2",
     "nodegit": "^0.4.1",
+    "read-yaml": "^1.0.0",
     "rot": "^0.1.0"
   },
   "jshintConfig": {
