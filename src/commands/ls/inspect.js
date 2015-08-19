@@ -1,6 +1,6 @@
 "use strict";
 
-var d = require('../../docker'),
+var d = require('../../docker-toolbox.js').docker,
     container = d.getContainer('e08831d4b3ba'),
     git = require('../../git');
 

@@ -1,6 +1,6 @@
 "use strict";
 
-var docker = require('../../docker.js');
+var docker = require('../../docker-toolbox.js').docker;
 
 var run = function(good,bad){
     docker.listContainers(function(err,allContainers){
