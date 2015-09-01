@@ -18,4 +18,4 @@ var D = {
     'machine': {}
 };
 
-module.exports = d;
+module.exports = D;
