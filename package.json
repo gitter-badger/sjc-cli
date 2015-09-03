@@ -4,8 +4,8 @@
   "description": "command-line utility for SJC developers and ops engineers",
   "main": "cli.sh",
   "scripts": {
-    "test": "gulp jasmine",
-    "lint": ""
+    "test": "bash test/jasmine-harmony.sh",
+    "lint": "gulp lint"
   },
   "bin": {
     "sjc": "cli.sh"

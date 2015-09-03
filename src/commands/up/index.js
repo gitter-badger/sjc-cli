@@ -7,15 +7,15 @@
 var childProcess = require('child_process');
 
 var run = function(good,bad) {
-    var docker-machine = childProcess.spawn('docker-machine',['start','default']);
+    var dockerMachine = childProcess.spawn('docker-machine',['start','default']);
     var r='',err='';
-    docker-machine.stdout.on('data',function(data){
+    dockerMachine.stdout.on('data',function(data) {
         r += data;
     });
-    docker-machine.stderr.on('data',function(data){
+    dockerMachine.stderr.on('data',function(data) {
         err += data;
     });
-    docker-machine.on('close',function(code){
+    dockerMachine.on('close',function(code) {
         if (code !== 0) {
             err = Error('Process exited with error code ' + code);
         }

@@ -27,4 +27,4 @@ var run = function(good,bad) {
 
 module.exports = function(Command,scope) {
     return new Command(scope,run);
-}
+};
