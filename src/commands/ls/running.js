@@ -1,23 +1,9 @@
 "use strict";
 
-var docker = require('../../docker.js');
+var docker = require('../../procker.js');
 
 var run = function(good,bad){
-    docker.listContainers(function(err,allContainers){
-        if (err) {
-            bad(err);
-        } else {
-            var goodContainers = allContainers.filter(function(container){
-                var r = false;
-                if ("Labels" in container && "io.sjc.manager" in container.Labels) {
-                    //return ( /sjc/.test(container.Labels['io.sjc.manager']) );
-                    return true;
-                }
-                return r;
-            });
-            good(goodContainers);
-        }
-    });    
+    docker.listContainers().then(good).catch(bad);
 };
 
 module.exports = run;
