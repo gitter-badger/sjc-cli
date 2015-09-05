@@ -11,7 +11,6 @@ var d = new Docker({
     key: fs.readFileSync( process.env.DOCKER_CERT_PATH + '/key.pem', {encoding: "utf8"})
 });
 
-
 var D = {
     'docker': d,
     'compose': {},

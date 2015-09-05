@@ -9,6 +9,7 @@ var childProcess = require('child_process');
 var run = function(good,bad) {
     var dockerMachine = childProcess.spawn('docker-machine',['start','default']);
     var r='',err='';
+    dockerMachine.stdout.setEncoding('utf8');
     dockerMachine.stdout.on('data',function(data) {
         r += data;
     });
@@ -22,9 +23,7 @@ var run = function(good,bad) {
         if (err) {
             bad(err);
         } else {
-
-            //  now do docker start
-
+            //  now start docker
             good(r);
         }
     });
