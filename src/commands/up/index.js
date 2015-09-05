@@ -1,6 +1,7 @@
 "use strict";
 
 /**
+<<<<<<< HEAD
  * Turns on Docker Machine
  * @example: sjc up
  * 
@@ -16,3 +17,37 @@ var run = function(good,bad){
 module.exports = function(scope){
     return new Command(scope,run);
 };
+=======
+ * Open Docker Machine
+ */
+
+var childProcess = require('child_process');
+
+var run = function(good,bad) {
+    var dockerMachine = childProcess.spawn('docker-machine',['start','default']);
+    var r='',err='';
+    dockerMachine.stdout.on('data',function(data) {
+        r += data;
+    });
+    dockerMachine.stderr.on('data',function(data) {
+        err += data;
+    });
+    dockerMachine.on('close',function(code) {
+        if (code !== 0) {
+            err = Error('Process exited with error code ' + code);
+        }
+        if (err) {
+            bad(err);
+        } else {
+
+            //  now do docker start
+
+            good(r);
+        }
+    });
+};
+
+ module.exports = function(Command,scope) {
+    return new Command(scope,run);
+ };
+>>>>>>> 78b0398ba3e4e66704969956305b14611f57805c

@@ -9,8 +9,6 @@
  * @example: sjc throw
  */
 
-var Command = require('../../Command.js');
-
 var run = function(good,bad) {
 
     /**
@@ -28,7 +26,7 @@ var run = function(good,bad) {
 };
 
 
-module.exports = function(scope) {
+module.exports = function(Command,scope) {
 
     /**
      * Command is the Command.js constructor

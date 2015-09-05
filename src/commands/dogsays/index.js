@@ -9,8 +9,6 @@
  * @example sjc dogsays meeow
  */
 
-var Command = require('../../Command.js');
-
 const dogChar = '🐕 ';
 const validWords = ['bark','ruff','woof'];
 var barkIt = function(word) {
@@ -32,6 +30,6 @@ var run = function(good,bad) {
     }
 };
 
-module.exports = function(scope) {
+module.exports = function(Command,scope) {
     return new Command(scope,run);
 };

@@ -3,6 +3,7 @@
 var fs = require('fs'),
     CLIError = require('./error.js'),
     scope = require('./scope.js'),
+    Command = require('./Command.js'),
     commandName = process.argv[2] || "help",
     command  = function() {},   // jscs:disable requireSpacesInFunction, requireSpaceBeforeBlockStatements
     args = process.argv.slice(3),
@@ -37,7 +38,7 @@ function bad(errorOrString) {
 }
 
 function main() {
-    command(scope).then(good).catch(bad);
+    command(Command,scope).then(good).catch(bad);
 }
 
 fs.readdir( __dirname + '/commands',function(err,files){

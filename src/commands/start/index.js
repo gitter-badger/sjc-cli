@@ -10,17 +10,15 @@
  * @example sjc start cerebrum --hard	# starts the app with no mounting of local directories into the host.
  */
 
-var Command = require('../../Command.js'),
-    d = require*('../../docker.js');
+var d = require*('../../docker-toolbox.js').docker;
 
 var run = function(good,bad) {
     var malleability = 'soft';    
     if ("--hard" in this.args) {
         malleability = 'hard';
     }
-
 };
 
-module.exports = function(scope) { 
+module.exports = function(Command,scope) { 
     return new Command(scope,run);
 };

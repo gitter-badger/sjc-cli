@@ -22,4 +22,8 @@ gulp.task('test',function(){
     gulp.src(SPEC_GLOBS).pipe(jasmine());
 });
 
+gulp.task('burp',function(){
+   gulp.src(['test/commands/rot13.js','test/commands/weirdfacts.js']).pipe(jasmine()); 
+});
+
 gulp.task('default', ['lint', 'test']);
