@@ -2,11 +2,10 @@
 
 var colour = require('bash-color'),
     playsound = require('./playsound.js'),
-    vars = require('./vars.js');
+    config = require('./scope.js').conf.message;
 
-module.exports = function(msg,type,config) {
+module.exports = function(msg,type) {
     var fancyOutput;
-    config = config || vars.message;
     type = type || 'default';
     if (!(type in config)) {
         type = 'default';

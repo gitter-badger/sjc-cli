@@ -7,13 +7,13 @@
  */
 
 var spawn = require('child_process').spawn,
-    vars = require('./vars.js');
+    scope = require('./scope.js');
 const CLIP_ROOT = __dirname + '/assets/';
 
 var playsound = function(clipname) {
     var clipPath = CLIP_ROOT + clipname;
     var command = '/usr/bin/env';
-    var args = ['afplay','-v', vars.soundEffects.volume ,clipPath];
+    var args = ['afplay','-v', scope.conf.soundEffects.volume, clipPath];
     var options = {
         stdio: ['ignore','ignore','ignore'],
         detached: true
