@@ -1,6 +1,7 @@
 logz/
 node_modules/
 *.sublime-*
+sjc-cli.sublime-*
 
 ## WINDOWS and Visual Studio ##
 
