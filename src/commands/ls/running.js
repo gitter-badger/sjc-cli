@@ -31,6 +31,7 @@ var run = function(good,bad){
                         switch (k) {
                             case 'selected':
                             case 'ambassador':
+                            case 'created':
                             //  we don't need this field
                             break;
                             default:

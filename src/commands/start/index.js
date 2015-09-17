@@ -11,12 +11,25 @@
  */
 
 var d = require*('../../docker-toolbox.js').docker;
+var child_process = require('child_process');
+
+var params = {
+    command: process.cwd() + '/run.sh',
+    args: ['--hard'],
+    options: {}
+};
 
 var run = function(good,bad) {
-    var malleability = 'soft';    
-    if ("--hard" in this.args) {
-        malleability = 'hard';
-    }
+    good(this);
+    /*
+    child_process.execFile(params.command,params.args,params.options,function(err,stdout,stderr){
+        if (err) {
+            bad(stderr);
+        } else {
+            good(stdout);
+        }
+    });
+    */
 };
 
 module.exports = function(Command,scope) { 
