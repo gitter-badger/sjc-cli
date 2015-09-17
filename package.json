@@ -39,6 +39,7 @@
   "dependencies": {
     "bash-color": "0.0.3",
     "colors": "^1.1.2",
+    "columnify": "^1.5.2",
     "columnizer": "^0.1.0",
     "dockerode": "^2.2.2",
     "nodegit": "^0.4.1",
