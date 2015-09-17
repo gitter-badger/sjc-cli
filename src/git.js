@@ -10,4 +10,3 @@ git.currentBranch = function(cb){
 };
 
 module.exports = git;
-

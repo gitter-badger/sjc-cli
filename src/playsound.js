@@ -10,15 +10,46 @@ var spawn = require('child_process').spawn,
     scope = require('./scope.js');
 const CLIP_ROOT = __dirname + '/assets/';
 
-var playsound = function(clipname) {
-    var clipPath = CLIP_ROOT + clipname;
+var darwinParams = function(clip_path) {
     var command = '/usr/bin/env';
-    var args = ['afplay','-v', scope.conf.soundEffects.volume, clipPath];
+    var args = ['play','-q','-v','0.2',clip_path + '.mp3'];
     var options = {
         stdio: ['ignore','ignore','ignore'],
         detached: true
     };
-    var clip = spawn(command,args,options);
+    var r = {};
+    r.command = command;
+    r.args  = args;
+    r.options = options;
+    return r;
+};
+
+var ubuntuParams = function(clip_path) {
+    var command = '/usr/bin/env';
+    var args = ['aplay',clip_path + '.wav'];
+    var options = {
+        stdio: ['ignore','ignore','ignore'],
+        detached: true
+    };
+    var r = {};
+    r.command = command;
+    r.args  = args;
+    r.options = options;
+    return r;
+};
+
+var playsound = function(clipname){
+    var clip_path = CLIP_ROOT + clipname;
+    var params = {};
+    switch (process.platform) {
+        case 'linux':
+        params = ubuntuParams(clip_path);
+        break;
+        default:
+        params = darwinParams(clip_path);
+        break;
+    }
+    var clip = spawn(params.command,params.args,params.options);
     clip.unref();
     return;
 };

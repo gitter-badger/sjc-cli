@@ -51,7 +51,11 @@ fs.readdir( __dirname + '/commands',function(err,files){
     if (legalCommandNames.indexOf(commandName) > -1) {
         command = require('./commands/' + commandName);
     } else {
-        throw new CLIError('command  ' + commandName + ' does not exist');
+        command = function(Command,scope) {
+            return new Promise(function(resolve,reject){
+                reject('command  ' + commandName + ' does not exist');
+            });
+        };
     }
     main();
 });

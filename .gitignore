@@ -3,3 +3,4 @@ node_modules/
 *.sublime-*
 .dockerignore
 .npmignore
+npm-debug.log
