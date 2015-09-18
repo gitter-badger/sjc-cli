@@ -33,6 +33,9 @@ var run = function(good,bad){
                             case 'ambassador':
                             //  we don't need this field
                             break;
+                            case 'id':
+                            //  shorten it
+                            v = v.substring(0,8);
                             default:
                             row[k] = f(v);
                             lines[k] = colour.blue('-'.repeat( Math.max((''+v).length,k.length)));

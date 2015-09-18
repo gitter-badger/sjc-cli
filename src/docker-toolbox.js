@@ -102,6 +102,7 @@ var D = {
                             }
                             return {
                                 n: f(n+1),
+                                id: f(container.Id),
                                 project: f(container.Labels['io.sjc.orchestra.project']),
                                 app: f(container.Labels['io.sjc.orchestra.app.name']),
                                 branch: f(container.Labels['io.sjc.orchestra.ref']),

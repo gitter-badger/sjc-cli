@@ -4,8 +4,8 @@ var git = {};
 var proc = require('child_process');
 
 git.currentBranch = function(cb){
-    proc.exec('git rev-parse --abbrev-ref HEAD',function(error, stdout, stderr){
-        cb(stderr,stdout);
+    proc.exec('git rev-parse --abbrev-ref HEAD | tr -d "\n"',function(error, stdout, stderr) {
+        cb(stderr, stdout);
     });
 };
 

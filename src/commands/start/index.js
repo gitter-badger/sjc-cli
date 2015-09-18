@@ -13,10 +13,7 @@
 var d = require*('../../docker-toolbox.js').docker;
 
 var run = function(good,bad) {
-    var malleability = 'soft';    
-    if ("--hard" in this.args) {
-        malleability = 'hard';
-    }
+    good( this.appdef );
 };
 
 module.exports = function(Command,scope) { 
