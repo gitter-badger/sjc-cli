@@ -1,11 +1,11 @@
 #!/bin/bash
 
 mkdir -p ~/.sjc/cli
-cd ~/.sjc/cli
+rm -rvf ~/.sjc/cli
 
-git init
-git remote add origin https://github.com/stjosephcontent/sjc-cli/.git
-git pull origin master
+cd ~/.sjc
+
+git clone https://github.com/stjosephcontent/sjc-cli.git cli
 
 npm install n
 n latest
