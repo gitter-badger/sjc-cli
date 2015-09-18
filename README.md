@@ -4,4 +4,7 @@ A command-line utility for SJC
 
 ## Installation
 
-    curl https://raw.githubusercontent.com/stjosephcontent/sjc-cli/master/install.sh | bash
+    git clone https://github.com/stjosephcontent/sjc-cli.git
+    cd sjc-cli
+    bash install.sh
+
