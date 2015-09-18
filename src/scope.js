@@ -11,31 +11,37 @@ var scope = {
     args: args,
     conf: conf,
     appdef: null,
-    repo: {}
+    repo: null,
+    enhance: function(cb) {
+        git.currentBranch(function(err,branch) {
+            if (err) {
+                cb(err,branch);
+            } else {
+                scope.repo = {
+                    branch: branch
+                };
+                git.currentRev(function(err,rev) {
+                    if (err) {
+                        cb(err,rev);
+                    } else {
+                        scope.repo.rev = rev;
+                        fs.readFile(process.cwd()+'/appdef.json',{encoding: "utf8"},function(err,appdefAsString) {
+                            if (err) {
+                              cb(err,appdefAsString);
+                            } else {
+                                try {
+                                    scope.appdef = JSON.parse(appdefAsString);
+                                } catch(e) {
+                                    err = e;
+                                }
+                                cb(err,scope);
+                            }
+                        });                    
+                    }
+                });
+            }
+        });
+    }
 };
-
-git.currentBranch(function(err,branch) {
-    if (err) {
-        //  fail silently
-    } else {
-        scope.repo.branch = branch
-    }
-});
-
-git.currentBranch(function(err,rev) {
-    if (err) {
-        //  fail silently
-    } else {
-        scope.repo.rev = rev
-    }
-});
-
-fs.readFile(process.cwd()+'/appdef.json',{encoding: "utf8"},function(err,appdefAsString) {
-    if (err) {
-	   //  fail silently
-    } else {
-	   scope.appdef = JSON.parse(appdefAsString);
-    }
-});
 
 module.exports = scope;
