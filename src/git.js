@@ -9,4 +9,10 @@ git.currentBranch = function(cb){
     });
 };
 
+git.currentRev = function(cb) {
+    proc.exec('git rev-parse HEAD | tr -d "\n"',function(error, stdout, stderr) {
+        cb(stderr, stdout);
+    });
+}
+
 module.exports = git;

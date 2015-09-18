@@ -1,6 +1,7 @@
 "use strict";
 
 var playsound = require('./playsound.js'),
+    scope = require('./scope'),
     fancy = require('./fancy.js');
 
 function CLIError(err) {

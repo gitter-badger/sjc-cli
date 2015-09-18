@@ -12,19 +12,30 @@
 
 var d = require*('../../docker-toolbox.js').docker;
 var child_process = require('child_process');
-
-var params = {
-    command: process.cwd() + '/run.sh',
-    args: ['--hard'],
-    options: {}
-};
+var colour = require('bash-color');
+var git = require('../../git');
+var fancy = require('../../fancy');
 
 var run = function(good,bad) {
-    child_process.execFile(params.command,params.args,params.options,function(err,stdout,stderr){
+
+    var scope = this;
+    var params = {
+        command: process.cwd() + '/run.sh',
+        args: this.args,
+        options: {}
+    };
+
+    git.currentBranch(function(err,branch){
         if (err) {
-            bad(stderr);
+            bad(err);
         } else {
-            good(stdout);
+    	    child_process.execFile(params.command,params.args,params.options,function(err,stdout,stderr) {
+        		if (err) {
+        		    bad(err);
+        		} else {
+        		    good(fancy(scope.appdef.project.name + ' / ' + scope.appdef.name + ' : ' +  branch + ' was spun up' ,'success'));
+        		}
+    	    });
         }
     });
 };

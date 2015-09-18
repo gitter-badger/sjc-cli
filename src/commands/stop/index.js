@@ -1,6 +1,7 @@
 "use strict";
 
 var d = require('../../docker-toolbox.js');
+var fancy = require('../../fancy');
 
 var run = function(good,bad) {
     d.getContainer(this.args[0],function(err,container) {

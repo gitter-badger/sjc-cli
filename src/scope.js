@@ -4,12 +4,38 @@ var fs = require('fs');
 var commandName = process.argv[2] || "help";
 var args = process.argv.slice(3);
 var conf = require('./config.json');
+var git = require('./git.js');
 
 var scope = {
     commandName: commandName,
     args: args,
     conf: conf,
-    appdef: JSON.parse(fs.readFileSync( process.cwd() + '/appdef.json',{encoding: "utf8"}))
+    appdef: null,
+    repo: {}
 };
+
+git.currentBranch(function(function(err,branch) {
+    if (err) {
+        //  fail silently
+    } else {
+        scope.repo.branch = branch
+    }
+}));
+
+git.currentBranch(function(function(err,rev) {
+    if (err) {
+        //  fail silently
+    } else {
+        scope.repo.rev = rev
+    }
+}));
+
+fs.readFile(process.cwd()+'/appdef.json',{encoding: "utf8"},function(err,appdefAsString) {
+    if (err) {
+	   //  fail silently
+    } else {
+	   scope.appdef = JSON.parse(appdefAsString);
+    }
+});
 
 module.exports = scope;
