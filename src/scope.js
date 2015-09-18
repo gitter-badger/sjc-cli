@@ -14,21 +14,21 @@ var scope = {
     repo: {}
 };
 
-git.currentBranch(function(function(err,branch) {
+git.currentBranch(function(err,branch) {
     if (err) {
         //  fail silently
     } else {
         scope.repo.branch = branch
     }
-}));
+});
 
-git.currentBranch(function(function(err,rev) {
+git.currentBranch(function(err,rev) {
     if (err) {
         //  fail silently
     } else {
         scope.repo.rev = rev
     }
-}));
+});
 
 fs.readFile(process.cwd()+'/appdef.json',{encoding: "utf8"},function(err,appdefAsString) {
     if (err) {
