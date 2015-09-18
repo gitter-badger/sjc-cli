@@ -11,7 +11,7 @@ var d = require('../../docker-toolbox.js')
 var run = function(good,bad) {
     d.machine.start(function(err,data){
         if (err) {
-            bad();
+            bad(err);
         } else {
             good(data);
         }

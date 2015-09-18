@@ -2,13 +2,23 @@
 
 
 /**
- * Spin down docker machine. Takes no arguments. simply invoked "docker-machine stop default"
+ * Spin down docker machine. Takes no arguments. it simply invokes "docker-machine stop default"
  * @returns (stdout) - whatever the docker-machine command said
  */
 
-var childProcess = require('child_process');
+var d = require('../../docker-toolbox.js');
 
 var run = function(good,bad) {
+
+    d.machine.stop(function(err,data){
+        if (err) {
+            bad(err);
+        } else {
+            good(data);
+        }
+    });
+
+    /*
     var dockerMachine = childProcess.spawn('docker-machine',['stop','default']);
     var r='',err='';
     dockerMachine.stdout.setEncoding('utf8');
@@ -28,6 +38,7 @@ var run = function(good,bad) {
             good(r);
         }
     });
+    */
 };
 
  module.exports = function(Command,scope) {

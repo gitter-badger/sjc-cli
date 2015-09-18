@@ -6,3 +6,7 @@ var run = function(good,bad) {
         good(scope);
     });
 };
+
+module.exports = function(Command,scope) {
+	return new Command(scope,run);
+};

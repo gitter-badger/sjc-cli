@@ -32,7 +32,7 @@ var run = function(good,bad) {
                     if (err) {
                         bad(err);
                     } else {
-                        good(fancy(scope.appdef.project.name + ' / ' + scope.appdef.name + ' : ' +  branch + ' was spun up' ,'success'));
+                        good(fancy(scope.appdef.project.name + ' / ' + scope.appdef.name + ' : ' +  branch + ' now running' ,'success'));
                     }
                 });
             }
