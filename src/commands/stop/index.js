@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * Currently stops a container, but it should actually stop on *app*.
+ * Currently stops a container, but it should actually stop an *app*.
  * @todo  This should actually stop an app and not a container (ie: all the containers associate to a speicific app)
  * @example sjc stop 1
  * @example sjc stop e4f2
