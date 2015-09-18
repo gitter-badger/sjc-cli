@@ -12,7 +12,7 @@ const CLIP_ROOT = __dirname + '/assets/';
 
 var darwinParams = function(clip_path) {
     var command = '/usr/bin/env';
-    var args = ['play','-q','-v','0.2',clip_path + '.mp3'];
+    var args = ['afplay','-v','0.2',clip_path + '.mp3'];
     var options = {
         stdio: ['ignore','ignore','ignore'],
         detached: true
@@ -41,7 +41,7 @@ var ubuntuParams = function(clip_path) {
 var playsound = function(clipname){
     var clip_path = CLIP_ROOT + clipname;
     var params = {};
-    switch (process.platform) {
+    switch (process.platform.toLowerCase()) {
         case 'linux':
         params = ubuntuParams(clip_path);
         break;
