@@ -19,6 +19,7 @@ var run = function(good,bad){
             if (services.length) {
                 cols = services.map(function(container,n) {
                     row = {};
+		    row.n = n+1;
                     if (container.mounted === 'yes') {
                         f = function(x) {
                             return colour.green(x);
@@ -47,7 +48,6 @@ var run = function(good,bad){
                     } else {
                         row[' '] = '';
                     }
-                    
                     return row;
                 });
                 cols.unshift(lines);

@@ -9,7 +9,21 @@ var scope = {
     commandName: commandName,
     args: args,
     conf: conf,
-    appdef: JSON.parse(fs.readFileSync( process.cwd() + '/appdef.json',{encoding: "utf8"}))
+    appdef = null;
+
+fs.readFile(process.cwd()+'/appdef.json'),{encoding: "utf8"},function(err,appdefAsString){
+    if (err) {
+	   //  fail silently
+    } else {
+	   appdef = JSON.parse(appdefAsString);
+    }
+});
+
+var scope = {
+    commandName: commandName
+    args: args
+    conf: conf
+    appdef: appdef
 };
 
 module.exports = scope;
