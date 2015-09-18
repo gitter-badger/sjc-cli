@@ -18,22 +18,22 @@ var fancy = require('../../fancy');
 
 var run = function(good,bad) {
     var params = {
-	command: process.cwd() + '/run.sh',
-	args: this.args,
-	options: {}
+    	command: process.cwd() + '/run.sh',
+    	args: this.args,
+    	options: {}
     };
     var scope = this;
     git.currentBranch(function(err,branch){
         if (err) {
-	    bad(err);
+            bad(err);
         } else {
-	    child_process.execFile(params.command,params.args,params.options,function(err,stdout,stderr) {
-		if (err) {
-		    bad(err);
-		} else {
-		    good(fancy(scope.appdef.project.name + ' / ' + scope.appdef.name + ' : ' +  branch + ' was spun up' ,'success'));
-		}
-	    });
+    	    child_process.execFile(params.command,params.args,params.options,function(err,stdout,stderr) {
+        		if (err) {
+        		    bad(err);
+        		} else {
+        		    good(fancy(scope.appdef.project.name + ' / ' + scope.appdef.name + ' : ' +  branch + ' was spun up' ,'success'));
+        		}
+    	    });
         }
     });
 };
