@@ -20,8 +20,6 @@ var params = {
 };
 
 var run = function(good,bad) {
-    good(this);
-    /*
     child_process.execFile(params.command,params.args,params.options,function(err,stdout,stderr){
         if (err) {
             bad(stderr);
@@ -29,7 +27,6 @@ var run = function(good,bad) {
             good(stdout);
         }
     });
-    */
 };
 
 module.exports = function(Command,scope) { 
