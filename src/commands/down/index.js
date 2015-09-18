@@ -1,7 +1,9 @@
 "use strict";
 
+
 /**
- * Spin down the the app (docker containers)
+ * Spin down docker machine. Takes no arguments. simply invoked "docker-machine stop default"
+ * @returns (stdout) - whatever the docker-machine command said
  */
 
 var childProcess = require('child_process');
@@ -23,7 +25,6 @@ var run = function(good,bad) {
         if (err) {
             bad(err);
         } else {
-            //  now start docker
             good(r);
         }
     });

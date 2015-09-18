@@ -1,43 +1,20 @@
 "use strict";
 
-var git = require('../../git.js');
-var d = require('../../docker-toolbox.js');
-
-var run = function(good,bad) {
-    var scope = this;
-    var runningContainer = {};
-    git.currentBranch(function(err,branch) {
-        if (err) {
-            bad(err);
-        } else {
-
-            /*
-            d.getRunningServices(function(err,services){
-                if (err) {
-                    bad(err);
-                } else {
-                    runningContainer = services.filter(function(s){
-
-                    });
-                }
-            });
-            */
-           
-
-            d.docker.listContainers(function(err,containers) {
-                var r = {
-                    currentBranch: branch,
-                    project: scope.appdef.project.name,
-                    appName: scope.appdef.name,
-                    services: Object.keys(scope.appdef.services)
-                };
-                r = containers;
-                good(r);                
-            });
-        }
-    });
-};
+/**
+ * reads appdef and returns it. First uses scope's "enhance" method to learn about the current repo and appdef
+ * @returns {String} the contents of appdef.json, or an error if the current dir is not a git repo, or does not have an appdef file
+ * @example sjc info (from the root of a repo containing an appdef.json file)
+ * @example sjc info (from anywhere else)
+ */
 
 module.exports = function(Command,scope) { 
-    return new Command(scope,run);
+    return new Command(scope,function(good,bad){
+        scope.enhance(function(err,newcope) {
+            if (err) {
+                bad(err);  
+            } else {
+                good(scope);    
+            }
+        });
+    });
 };

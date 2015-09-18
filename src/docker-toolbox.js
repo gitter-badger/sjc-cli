@@ -24,7 +24,6 @@ var d = new Docker({
 });
 
 var machineExec = function(args,cb) {
-    //var machineName = 'default';
     var err=null, r=null;
     args.push(machineName);
     var proc = childProcess.spawn('docker-machine',args);
@@ -90,7 +89,7 @@ var allServices = function(transformer,cb) {
                             url = 'http://' + localMachine.host + ':' + port;
                         }
                         return {
-                            id: f( container.Id.substr(0,8) ),
+                            id: container.Id,
                             created: container.Created,
                             project: f(container.Labels['io.sjc.orchestra.project']),
                             app: f(container.Labels['io.sjc.orchestra.app.name']),
@@ -117,11 +116,11 @@ var allServices = function(transformer,cb) {
                     data = transformer(data);
                 }
             }
-	    /*
-	    if (data === null) {
-		err = Error('There was no data returned');
-	    }
-	    */
+    	    /*
+    	    if (data === null) {
+    		err = Error('There was no data returned');
+    	    }
+    	    */
             cb(err,data);
         });
     });    
@@ -159,6 +158,19 @@ var D = {
             return container || null;
         };
         allServices(transformer,cb);
+    },
+    getRunningApps: function(cb) {
+        var f = function(allservices) {
+            var apps = {};
+            allservices.forEach(function(s){
+                if (! (s.app in apps) ) {
+                    apps[s.app] = [];
+                }
+                apps[s.app].push(s);
+            });
+            return apps;
+        };
+        allServices(f,cb);
     },
     getRunningServices: function(cb) {
         allServices(null,function(err,data) {

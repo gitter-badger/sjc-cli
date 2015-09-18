@@ -17,11 +17,13 @@ var run = function(good,bad) {
      * bad is it's evil twin
      */
 
-    if ( this.args[0] === 'throw' ) {
+     var scope = this;
+
+    if ( scope.args[0] === 'throw' ) {
         bad('i am throwing an error');
     } else {
-        //  let's show the user everything in run's scope, which is bound to "this"
-        good(this);
+        //  let's show the user everything in run's scope, which we bound to "this"
+        good(scope);
     }
 };
 
@@ -31,7 +33,7 @@ module.exports = function(Command,scope) {
     /**
      * Command is the Command.js constructor
      * scope is an object made up of data we think the command might need.
-     * we can modify it as desired:
+     * we can modify it as desired. ex:
      */
 
     scope.userPreferences = {

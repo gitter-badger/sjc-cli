@@ -27,7 +27,7 @@ var scope = {
                         scope.repo.rev = rev;
                         fs.readFile(process.cwd()+'/appdef.json',{encoding: "utf8"},function(err,appdefAsString) {
                             if (err) {
-                              cb(err,appdefAsString);
+                              cb(Error('There is no appdef file'),appdefAsString);
                             } else {
                                 try {
                                     scope.appdef = JSON.parse(appdefAsString);

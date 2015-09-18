@@ -1,5 +1,12 @@
 "use strict";
 
+/**
+ * Currently stops a container, but it should actually stop on *app*.
+ * @todo  This should actually stop an app and not a container (ie: all the containers associate to a speicific app)
+ * @example sjc stop 1
+ * @example sjc stop e4f2
+ */
+
 var d = require('../../docker-toolbox.js');
 var fancy = require('../../fancy');
 
@@ -15,7 +22,7 @@ var run = function(good,bad) {
                     if (err) {
                         bad(err);
                     } else {
-                        good(fancy('The thing was good!','success'));
+                        good(fancy('The container was stopped','success'));
                     }
                 });
             }

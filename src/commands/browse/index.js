@@ -2,6 +2,10 @@
 
 /**
  * open a browser with the desired app
+ * @param {Container ID} either a one or two digit number representing the N column, or a longer string representing the ID column
+ * @returns {nothing} (Launches the user's default browser with the specified app)
+ * @example sjc browse 1
+ * @example sjc browse ef4a
  */
 
 var d = require('../../docker-toolbox.js'),
