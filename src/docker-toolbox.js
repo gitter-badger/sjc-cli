@@ -125,11 +125,9 @@ var allServices = function(transformer,cb) {
                     data = transformer(data);
                 }
             }
-    	    /*
-    	    if (data === null) {
-    		err = Error('There was no data returned');
+    	    if (!data) {
+                err = Error('There was no container match');
     	    }
-    	    */
             cb(err,data);
         });
     });    
@@ -151,30 +149,30 @@ var D = {
     },
     getContainer: function(token,cb) {
         var transformer = function(allcontainers) {
-	    var container = null, n;
+            var container = null, n;
             switch (token.length) {
                 case 1:
                 case 2:
-		n = Number(token) + 1;
-		if (n in allcontainers) {
-		    container = allcontainers[ n ];
+                n = Number(token) - 1;
+                if (n in allcontainers) {
+                    container = allcontainers[ n ];
                 }
                 break;
                 default:
-                container = allcontainers.filter(function(c){
+                container = allcontainers.filter(function(c) {
                     var pattern = new RegExp('^'+token,'i');
                     return (pattern.test(c.id));
                 }).pop();
                 break;
             }
-            return container || null;
+            return container;
         };
         allServices(transformer,cb);
     },
     getRunningApps: function(cb) {
         var f = function(allservices) {
             var apps = {};
-            allservices.forEach(function(s){
+            allservices.forEach(function(s) {
                 if (! (s.app in apps) ) {
                     apps[s.app] = [];
                 }

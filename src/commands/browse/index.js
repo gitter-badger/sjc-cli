@@ -23,38 +23,34 @@ var options = {
     stdio: ['ignore','ignore','ignore'],
     detached: true
 };
+var params = {};
 ubuntu.options = osx.options = options;
+switch (process.platform.toLocaleLowerCase()) {
+    case 'darwin':
+    params.command = osx.command;
+    params.options = osx.options;
+    break;
+    case 'linux':
+    default:
+    params.command = ubuntu.command;
+    params.options = ubuntu.options;
+    break;
+}
 
 var run = function(good,bad) {
+    var action;
     if (!(this.args.length)) {
-        bad('you need to pass a number');
-    } else if ( /^\D+$/.test(this.args[0]) ) { 
-        bad('you passed something, but it was not a number');
+        bad('you need to pass container index or partial id');
     } else {
-        var n = parseInt(this.args[0]) - 1;
-        d.getRunningServices(function(err,services) {
-            var s;
-            if (n in services) {
-                s = services[n];
-                var params = {};
-                params.args = [services[n].url];
-                switch (process.platform.toLocaleLowerCase()) {
-                    case 'darwin':
-                    params.command = osx.command;
-                    params.options = osx.options;
-                    break;
-                    case 'linux':
-                    default:
-                    params.command = ubuntu.command;
-                    params.options = ubuntu.options;
-                    break;
-                }
-                var action = spawn(params.command,params.args,params.options);
-                good( fancy(s.url,'default') );
+        d.getContainer(this.args[0],function(err,container) {
+            if (err) {
+                bad(err);
             } else {
-                bad('That app does not exist');
+                params.args = [container.url];
+                action = spawn(params.command,params.args,params.options);
+                good( fancy(container.url,'default') );
             }
-        });
+        });        
     }
 };
 
