@@ -1,5 +1,7 @@
 "use strict";
 
+var conf = require('./config.json');
+
 var Docker = require('dockerode'),
     fs = require('fs'),
     childProcess = require('child_process'),
@@ -13,7 +15,7 @@ var Docker = require('dockerode'),
         key: fs.readFileSync( process.env.DOCKER_CERT_PATH + '/key.pem', {encoding: "utf8"})
     };
 
-const machineName = 'default';
+const machineName = conf.machineName;
 
 var d = new Docker({
     host: localMachine.host,
