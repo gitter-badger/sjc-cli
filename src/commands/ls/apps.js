@@ -17,7 +17,7 @@ var run = function(good,bad) {
                     project: s1.project,
                     appName: k,
                     branches: JSON.stringify(thisapp.map(function(a){ return a.branch; })),
-                    services: JSON.stringify(thisapp.map(function(a){ return a.service; }))
+                    services: JSON.stringify(thisapp.map(function(a){ return a.service; }).filter(function(s,n,arr){ return (arr.indexOf(s) === n); }))
                 };
                 cols.push(row);
             });

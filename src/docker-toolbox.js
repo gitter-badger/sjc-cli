@@ -5,10 +5,9 @@ var Docker = require('dockerode'),
     childProcess = require('child_process'),
     fancy = require('./fancy'),
     git = require('./git.js'),
+    scope = require('./scope'),
     localMachine = {},
     d;
-
-const machineName = 'default';
     
 if (process.platform.toLowerCase() === 'darwin') {
     localMachine = {
@@ -28,7 +27,7 @@ if (process.platform.toLowerCase() === 'darwin') {
 
 var machineExec = function(args,cb) {
     var err=null, r=null;
-    args.push(machineName);
+    args.push(scope.conf.machineName);
     if (process.platform.toLowerCase() === 'linux') {
         //err = Error('docker-machine does not exist on Linux');
         r = 'docker-machine does not exist on linux. you are good to go.';
@@ -148,6 +147,7 @@ var D = {
         }
     },
     getContainer: function(token,cb) {
+        //  get a container by id or number
         var transformer = function(allcontainers) {
             var container = null, n;
             switch (token.length) {

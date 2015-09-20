@@ -7,7 +7,7 @@ sudo -H rm -rvf ~/.sjc/cli
 
 cd ~/.sjc
 
-git clone https://github.com/stjosephcontent/sjc-cli.git cli
+sudo -H git clone https://github.com/stjosephcontent/sjc-cli.git cli
 
 cd cli
 
