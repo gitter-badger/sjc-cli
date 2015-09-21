@@ -2,7 +2,7 @@
 
 /**
  * Start an app. 
- * @param {String} - appname:branch [ --hard: --soft ]
+ * @param {String} - appname [ --hard: --soft ]
  * @return {String} - the output produced by the docker after is spins up the container
  * @example sjc start .	# starts the app at the current directory with the currently checkout branch
  * @example sjc start cerebrum	# starts the app called cerebrum regardless of current directory, with the currently checkout out branch

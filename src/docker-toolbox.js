@@ -1,5 +1,4 @@
 "use strict";
-
 var Docker = require('dockerode'),
     fs = require('fs'),
     childProcess = require('child_process'),
