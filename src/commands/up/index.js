@@ -8,7 +8,8 @@
 
 var d = require('../../docker-toolbox.js')
 
-var run = function(good,bad) {
+var run = function (good, bad) {
+   console.log("Note: Cold starting VirtualBox VM takes a minute.");
     d.machine.start(function(err,data){
         if (err) {
             bad(err);
