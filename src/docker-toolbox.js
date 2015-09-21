@@ -81,7 +81,9 @@ var machineExec = function (args, cb) {
 
 var allServices = function (transformer, cb) {
    git.currentBranch(function (err, currentBranch) {
-      if (err) cb(err, null);
+      if (err) {
+         currentBranch = '';  
+      }
       d.listContainers(function (err, allContainers) {
          var err = err;
          var data = null;
