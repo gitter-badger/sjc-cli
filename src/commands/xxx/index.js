@@ -1,15 +1,9 @@
 "use strict";
 
-/**
- * Turns on Docker Machine
- * @example: sjc up
- * 
- */
-
-var d = require('../../docker-toolbox.js');
+var hosts = require('../../superHostile.js');
 
 var run = function(good,bad) {
-    d.machine.start(function(err,data) {
+    hosts.list(function(err,data) {
         if (err) {
             bad(err);
         } else {

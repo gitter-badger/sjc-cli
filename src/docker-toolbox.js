@@ -52,7 +52,8 @@ var machineExec = function(args,cb) {
             if (exitCode !== 0) {
                 err = 'exit code ' + exitCode;
             } else if (r) {
-                r = fancy(r);
+                //r = r.trim();
+                //r = fancy(r);
             }
             cb(err,r);
         });
@@ -88,19 +89,16 @@ var allServices = function(transformer,cb) {
                 });
                 if (goodContainers.length) {
                     cols = goodContainers.map(function(container,n) {
+                        var appService;
                         var url = null;
                         var port = null;
                         var isAmbassador = container.Labels['io.sjc.orchestra.service.ambassador'];
                         var isSelected = (container.Labels['io.sjc.orchestra.ref'].trim() == currentBranch.trim());
-                        if (isAmbassador && container.Ports.length && container.Ports[0].PublicPort) {
-                            port = container.Ports[0].PublicPort;
-                            url = 'http://' + localMachine.host + ':' + port;
-                        }
-                        return {
+                        appService = {
                             id: container.Id,
                             created: container.Created,
                             project: f(container.Labels['io.sjc.orchestra.project']),
-                            app: f(container.Labels['io.sjc.orchestra.app.name']),
+                            app: f(container.Labels['io.sjc.orchestra.app.slug']),
                             branch: f(container.Labels['io.sjc.orchestra.ref']),
                             selected: isSelected,
                             service: f(container.Labels['io.sjc.orchestra.service.name']),
@@ -110,6 +108,14 @@ var allServices = function(transformer,cb) {
                             url: url,
                             status: f(container.Status)
                         };
+                        if (isAmbassador && container.Ports.length && container.Ports[0].PublicPort) {
+                            port = container.Ports[0].PublicPort;
+                            //url = 'http://' + localMachine.host + ':' + port;
+                            url = 'http://' + [appService.project,appService.app,appService.branch,appService.service,scope.conf.localTLD].join(".");
+                        }
+                        appService.port = port;
+                        appService.url = url;
+                        return appService;
                     });
                 }
                 data = cols;
@@ -144,7 +150,13 @@ var D = {
         },
         stop: function(cb) {
             machineExec(['stop'],cb);
+        },
+        ip: function(cb) {
+            machineExec(['ip'],cb);
         }
+    },
+    searchContainer: function(transformer,cb) {
+        allServices(transformer,cb);
     },
     getContainer: function(token,cb) {
         //  get a container by id or number
