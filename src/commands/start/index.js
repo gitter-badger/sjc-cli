@@ -15,7 +15,7 @@ var child_process = require('child_process');
 var colour = require('bash-color');
 var git = require('../../git');
 var fancy = require('../../fancy');
-var restClient = require('./../restClient.js');
+var restClient = require('../../restClient.js');
 var d = dockerToolbox.d;
 
 var run = function(good,bad) {
@@ -56,7 +56,7 @@ var run = function(good,bad) {
                                         if (err) {
                                             bad(err);
                                         } else {
-                                            restClient.post(postObject,function(err,data){
+                                            restClient.post(scope.appdef,function(err,data){
                                                 if (err) {
                                                     bad(err);
                                                 } else {

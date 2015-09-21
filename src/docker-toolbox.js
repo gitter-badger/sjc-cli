@@ -62,7 +62,10 @@ var machineExec = function(args,cb) {
 
 var allServices = function(transformer,cb) {
     git.currentBranch(function(err, currentBranch) {
-        if (err) cb(err,null);
+        if (err) {
+            //  no need to fail here. we are simply not in a a git repo
+            currentBranch = '';
+        }
         d.listContainers(function(err,allContainers) {
             var err = err;
             var data = null;

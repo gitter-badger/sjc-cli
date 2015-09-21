@@ -4,11 +4,7 @@ var qs = require('qs');
 var request = require('request');
 
 const DEFAULT_ENDPOINT = 'app-registry.local.dev';
-const DEFAULT_PATH = '/v0.0.1'
-
-request(options,function(error,response,body){
-    good(fancy(scope.appdef.project.name + ' / ' + scope.appdef.name + ' : ' +  branch + ' now running at ' + permalink ,'success'));
-});
+const DEFAULT_PATH = '/v0.0.1';
 
 var client = {
     post: function(data,cb) {
@@ -23,7 +19,22 @@ var client = {
             headers: headers,
             url: 'http://app-registry.local.dev/v0.0.1/ambassadors',
             method: 'POST',
-            form: postObject
+            form: postData
+        };
+        request(options,function(error,response,body) {
+            cb(error,body);
+        });
+    },
+    get: function() {
+        var headers = {
+            'User-Agent': 'Ochestra Rest Client/0.0.1'
+        };
+        var options = {
+            hostname: 'app-registry.local.dev',
+            port: 80,
+            headers: headers,
+            url: 'http://app-registry.local.dev/v0.0.1/ambassadors',
+            method: 'GET'
         };
         request(options,function(error,response,body) {
             cb(error,body);
@@ -45,3 +56,5 @@ var client = {
         });
     }
 };
+
+module.exports = client;
