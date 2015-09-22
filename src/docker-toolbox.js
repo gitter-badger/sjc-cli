@@ -77,105 +77,48 @@ var machineExec = function (args, cb) {
 };
 
 var allServices = function(transformer,cb) {
-    git.currentBranch(function(err, currentBranch) {
-        if (err) {
-            //  no need to fail here. we are simply not in a a git repo
-            currentBranch = '';
-        }
-        d.listContainers(function(err,allContainers) {
-            var err = err;
-            var data = null;
-            var cols = [];
-            var f = function(x) {
-                var r;
-                switch (typeof x) {
-                    case 'string':
-                    r = x.trim();
-                    default:
-                    r =x;
-                }
-                return r;
-            };
-            if (!err) {
-                var goodContainers = allContainers.filter(function(container) {
-                    var exists = false, isOrchestra = false;
-                    exists = ("Labels" in container && "io.sjc.orchestra.version" in container.Labels);
-                    if (exists) {
-                        //isOrchestra = /v/i.test(container.Labels['io.sjc.orchestra.version']);
-                        isOrchestra = true;
-                    }
-                    return exists && isOrchestra;
-                });
-                if (goodContainers.length) {
-                    cols = goodContainers.map(function(container,n) {
-                        var appService;
-                        var url = null;
-                        var port = null;
-                        var isAmbassador = container.Labels['io.sjc.orchestra.service.ambassador'];
-                        var isSelected = (container.Labels['io.sjc.orchestra.ref'].trim() == currentBranch.trim());
-                        appService = {
-                            id: container.Id,
-                            created: container.Created,
-                            project: f(container.Labels['io.sjc.orchestra.project']),
-                            app: f(container.Labels['io.sjc.orchestra.app.slug']),
-                            branch: f(container.Labels['io.sjc.orchestra.ref']),
-                            selected: isSelected,
-                            service: f(container.Labels['io.sjc.orchestra.service.name']),
-                            port: f(port),
-                            ambassador: f(isAmbassador),
-                            mounted: f(container.Labels['io.sjc.orchestra.service.volumeMounted']),
-                            url: url,
-                            status: f(container.Status)
-                        };
-                        if (isAmbassador && container.Ports.length && container.Ports[0].PublicPort) {
-                            port = container.Ports[0].PublicPort;
-                            //url = 'http://' + localMachine.host + ':' + port;
-                            url = 'http://' + [appService.project,appService.app,appService.branch,appService.service,scope.conf.localTLD].join(".");
-                        }
-                        appService.port = port;
-                        appService.url = url;
-                        return appService;
-                    });
-                }
-                data = cols;
-                data.sort(function(a,b) {
-                    var r = 1;
-                     if (a.created < b.created) {
-                        r = r * -1;
-                    }
-                    return r;
-                });
-                if (typeof transformer === 'function') {
-                    data = transformer(data);
-                }
+   git.currentBranch(function(err, currentBranch) {
+      if (err) {
+         //  no need to fail here. we are simply not in a a git repo
+         currentBranch = '';
+      }
+      d.listContainers(function(err,allContainers) {
+         var err = err;
+         var data = null;
+         var cols = [];
+         var f = function(x) {
+            var r;
+            switch (typeof x) {
+               case 'string':
+               r = x.trim();
+               default:
+               r =x;
             }
             return r;
          };
+
          if (!err) {
-            var goodContainers = allContainers.filter(function (container) {
+            var goodContainers = allContainers.filter(function(container) {
                var exists = false, isOrchestra = false;
                exists = ("Labels" in container && "io.sjc.orchestra.version" in container.Labels);
-               if (exists) {
-                  //isOrchestra = /v/i.test(container.Labels['io.sjc.orchestra.version']);
-                  isOrchestra = true;
-               }
-               return exists && isOrchestra;
+                  if (exists) {
+                     //isOrchestra = /v/i.test(container.Labels['io.sjc.orchestra.version']);
+                     isOrchestra = true;
+                  }
+                  return exists && isOrchestra;
             });
             if (goodContainers.length) {
-               cols = goodContainers.map(function (container, n) {
+               cols = goodContainers.map(function(container,n) {
+                  var appService;
                   var url = null;
                   var port = null;
                   var isAmbassador = container.Labels['io.sjc.orchestra.service.ambassador'];
                   var isSelected = (container.Labels['io.sjc.orchestra.ref'].trim() == currentBranch.trim());
-                  if (isAmbassador && container.Ports.length && container.Ports[0].PublicPort) {
-                     port = container.Ports[0].PublicPort;
-                     url = 'http://' + localMachine.host + ':' + port;
-                  }
-                  return {
+                  appService = {
                      id: container.Id,
                      created: container.Created,
                      project: f(container.Labels['io.sjc.orchestra.project']),
-                     app: f(container.Labels['io.sjc.orchestra.app.name']),
+                     app: f(container.Labels['io.sjc.orchestra.app.slug']),
                      branch: f(container.Labels['io.sjc.orchestra.ref']),
                      selected: isSelected,
                      service: f(container.Labels['io.sjc.orchestra.service.name']),
@@ -185,10 +128,18 @@ var allServices = function(transformer,cb) {
                      url: url,
                      status: f(container.Status)
                   };
+                  if (isAmbassador && container.Ports.length && container.Ports[0].PublicPort) {
+                     port = container.Ports[0].PublicPort;
+                     //url = 'http://' + localMachine.host + ':' + port;
+                     url = 'http://' + [appService.project,appService.app,appService.branch,appService.service,scope.conf.localTLD].join(".");
+                  }
+                  appService.port = port;
+                  appService.url = url;
+                  return appService;
                });
             }
             data = cols;
-            data.sort(function (a, b) {
+            data.sort(function(a,b) {
                var r = 1;
                if (a.created < b.created) {
                   r = r * -1;
@@ -198,9 +149,9 @@ var allServices = function(transformer,cb) {
             if (typeof transformer === 'function') {
                data = transformer(data);
             }
-         }
-         if (!data) {
-            err = Error('There are no services running that match that criteria');
+            if (!data) {
+               err = Error('There are no services running that match that criteria');
+            }
          }
          cb(err, data);
       });
