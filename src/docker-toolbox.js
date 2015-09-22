@@ -45,38 +45,36 @@ var machineExec = function (args, cb) {
             cb(null, stdout);
          }
       });
-   }
-   else {
+   } else {
       // OSX
       var proc = childProcess.spawn('docker-machine', args);
       proc.stdout.setEncoding('utf8');
       proc.stderr.setEncoding('utf8');
       proc.on('unhandledRejection', function (reason, p) {
          console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason);
-
       });
-        proc.stdout.on('data',function(data) {
-            if (data) {
-                if (r) {
-                    r = r + data;
-                } else {
-                    r = data;
-                }
-            }
-        });
-        proc.stderr.on('data',function(data) {
-            err = data;
-        });
-        proc.on('close',function(exitCode) {
-            if (exitCode !== 0) {
-                err = 'exit code ' + exitCode;
-            } else if (r) {
-                r = r.trim();
-                //r = fancy(r);
-            }
+      proc.stdout.on('data',function(data) {
+         if (data) {
+             if (r) {
+                 r = r + data;
+             } else {
+                 r = data;
+             }
+         }
+      });
+      proc.stderr.on('data',function(data) {
+         err = data;
+      });
+      proc.on('close',function(exitCode) {
+         if (exitCode !== 0) {
+             err = 'exit code ' + exitCode;
+         } else if (r) {
+             r = r.trim();
+             //r = fancy(r);
          }
       });
    }
+};
 
 var allServices = function(transformer,cb) {
     git.currentBranch(function(err, currentBranch) {
