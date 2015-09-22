@@ -102,7 +102,6 @@ var allServices = function(transformer,cb) {
                var exists = false, isOrchestra = false;
                exists = ("Labels" in container && "io.sjc.orchestra.version" in container.Labels);
                   if (exists) {
-                     //isOrchestra = /v/i.test(container.Labels['io.sjc.orchestra.version']);
                      isOrchestra = true;
                   }
                   return exists && isOrchestra;
