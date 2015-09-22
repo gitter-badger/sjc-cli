@@ -1,5 +1,6 @@
 {
 	"machineName": "dev",
+	"localTLD": "dev",
 	"soundEffects": {
 		"volume": 0.2
 	},

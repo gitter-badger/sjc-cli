@@ -9,8 +9,10 @@
 
 var d = require('../../docker-toolbox.js');
 var fancy = require('../../fancy');
+var restClient = require('../../restClient.js');
 
 var run = function(good,bad) {
+    var scope = this, permalink = null;
     d.getContainer(this.args[0],function(err,container) {
         if (err) {
             bad(err);
@@ -18,11 +20,14 @@ var run = function(good,bad) {
             if (container === null) {
                 bad(Error('The container could not be found'));
             } else {
-                d.docker.getContainer(container.id).stop(function(err,data){
+                d.docker.getContainer(container.id).stop(function(err,data) {
                     if (err) {
                         bad(err);
                     } else {
-                        good(fancy('The container was stopped','success'));
+                        permalink = [container.project,container.app,container.branch,container.service,scope.conf.localTLD].join('.');
+                        restClient.delete(function(err,ok){
+                            good(fancy('The container was stopped','success'));    
+                        });
                     }
                 });
             }
