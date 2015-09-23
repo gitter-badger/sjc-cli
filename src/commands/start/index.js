@@ -25,7 +25,7 @@ var run = function(good,bad) {
         args: this.args,
         options: {}
     };
-    scope.enhance(function(err,ok) {
+    scope.enhance(function(err,scope) {
         var ambassador = Object.keys(scope.appdef.services).filter(function(servicename){
             return ( scope.appdef.services[servicename].ambassador === true );
         }).pop();

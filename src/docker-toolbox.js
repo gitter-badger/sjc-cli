@@ -169,6 +169,9 @@ var D = {
       },
       stop: function (cb) {
          machineExec(['stop'], cb);
+      },
+      ip: function(cb) {
+        machineExec(['ip'], cb); 
       }
    },
    getContainer: function (token, cb) {
