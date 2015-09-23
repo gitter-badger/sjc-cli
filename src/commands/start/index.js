@@ -25,7 +25,12 @@ var run = function(good,bad) {
         args: this.args,
         options: {}
     };
-    scope.enhance(function(err,scope) {
+    scope.enhance(function(err,newscope) {
+        if (scope.appdef === null) {
+            err = Error('There was no appdef');
+            bad(err);
+            return;
+        }
         var ambassador = Object.keys(scope.appdef.services).filter(function(servicename){
             return ( scope.appdef.services[servicename].ambassador === true );
         }).pop();
