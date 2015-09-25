@@ -10,66 +10,54 @@
  * @example sjc start cerebrum --hard	# starts the app with no mounting of local directories into the host.
  */
 
-var dockerToolbox = require('../../docker-toolbox.js');
-var child_process = require('child_process');
-var colour = require('bash-color');
-var git = require('../../git');
-var fancy = require('../../fancy');
-var restClient = require('../../restClient.js');
-var d = dockerToolbox.d;
+var dockerToolbox = require('../../docker-toolbox.js'),
+    child_process = require('child_process'),
+    fancy = require('../../fancy'),
+    restClient = require('../../restClient.js'),
+    d = dockerToolbox.d;
 
 var run = function(good,bad) {
     var scope = this;
     var params = {
         command: process.cwd() + '/run.sh',
         args: this.args,
-        options: {}
+        options: {
+            cwd: process.cwd()
+        }
     };
     scope.enhance(function(err,newscope) {
         if (scope.appdef === null) {
-            err = Error('There was no appdef');
+            err = Error('You must run this command from the root of a git repo that contains an appdef.[json|yaml] file');
             bad(err);
             return;
         }
         var ambassador = Object.keys(scope.appdef.services).filter(function(servicename){
             return ( scope.appdef.services[servicename].ambassador === true );
         }).pop();
-        var permalink = [scope.appdef.project.slug,scope.appdef.slug,scope.repo.branch,ambassador,scope.conf.localTLD].join('.').trim();
+        var permalink = [scope.appdef.project.slug,scope.appdef.slug,scope.repo.branch,ambassador, scope.conf.docker.machine.dev.tld ].join('.').trim();
         if (!ambassador) {
             bad(Error('No ambassador specified in appdef. Orchestra doesn\'t know what service to expose'));
         } else {
-            dockerToolbox.machine.ip(function(err,machineIp) {
+            child_process.execFile(params.command,params.args,params.options,function(err,stdout,stderr) {
                 if (err) {
                     bad(err);
                 } else {
-                    git.currentBranch(function(err,branch){
+                    //  now get the IP of the ambassador
+                    var thisOne = function(allcontainers){
+                        var r = allcontainers.filter(function(c){
+                            return ( c.project == scope.appdef.project.slug && c.app == scope.appdef.slug && c.branch == scope.repo.branch && c.ambassador );
+                        });
+                        return r;
+                    };
+                    dockerToolbox.searchContainer(thisOne,function(err,ambassador) {
                         if (err) {
                             bad(err);
                         } else {
-                            child_process.execFile(params.command,params.args,params.options,function(err,stdout,stderr) {
+                            restClient.post(scope.appdef,function(err,data) {
                                 if (err) {
                                     bad(err);
                                 } else {
-                                    //  now get the IP of the ambassador
-                                    var thisOne = function(allcontainers){
-                                        var r = allcontainers.filter(function(c){
-                                            return ( c.project == scope.appdef.project.slug && c.app == scope.appdef.slug && c.branch == scope.repo.branch && c.ambassador );
-                                        });
-                                        return r;
-                                    };
-                                    dockerToolbox.searchContainer(thisOne,function(err,ambassador){
-                                        if (err) {
-                                            bad(err);
-                                        } else {
-                                            restClient.post(scope.appdef,function(err,data){
-                                                if (err) {
-                                                    bad(err);
-                                                } else {
-                                                    good(fancy(scope.appdef.project.name + ' / ' + scope.appdef.name + ' : ' +  branch + ' now running at ' + permalink ,'success'));    
-                                                }
-                                            });
-                                        }
-                                    });
+                                    good(fancy(scope.appdef.project.name + ' / ' + scope.appdef.name + ' : ' +  scope.repo.branch + ' now running at ' + permalink ,'success'));    
                                 }
                             });
                         }

@@ -27,7 +27,6 @@ if (process.platform.toLowerCase() === 'darwin') {
 var machineExec = function (args, cb) {
    var err = null, r = null;
    args.push(scope.conf.machineName);
-   
    if (process.platform.toLowerCase() === 'linux') {
       // Linux
       r = 'docker-machine does not exist on linux. you are good to go.';
@@ -67,10 +66,10 @@ var machineExec = function (args, cb) {
       });
       proc.on('close',function(exitCode) {
          if (exitCode !== 0) {
-             err = 'exit code ' + exitCode;
+             err = Error('exit code ' + exitCode);
          } else if (r) {
              r = r.trim();
-             //r = fancy(r);
+             cb(err,r);
          }
       });
    }
@@ -130,7 +129,7 @@ var allServices = function(transformer,cb) {
                   if (isAmbassador && container.Ports.length && container.Ports[0].PublicPort) {
                      port = container.Ports[0].PublicPort;
                      //url = 'http://' + localMachine.host + ':' + port;
-                     url = 'http://' + [appService.project,appService.app,appService.branch,appService.service,scope.conf.localTLD].join(".");
+                     url = 'http://' + [appService.project,appService.app,appService.branch,appService.service, scope.conf.docker.machine.dev.tld ].join(".");
                   }
                   appService.port = port;
                   appService.url = url;

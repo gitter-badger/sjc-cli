@@ -1,8 +1,16 @@
 {
-	"machineName": "dev",
-	"localTLD": "dev",
+	"orchestra": {
+		"version": "1.0.1"
+	},
+	"docker": {
+		"machine": {
+			"dev": {
+				"tld": "dev"
+			}
+		}
+	},
 	"soundEffects": {
-		"volume": 0.2
+		"volume": 0.25
 	},
 	"test": {
 		"timeout": 100
