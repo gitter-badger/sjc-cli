@@ -1,5 +1,4 @@
 "use strict";
-
 var Docker = require('dockerode'),
    fs = require('fs'),
    childProcess = require('child_process'),
@@ -28,7 +27,6 @@ if (process.platform.toLowerCase() === 'darwin') {
 var machineExec = function (args, cb) {
    var err = null, r = null;
    args.push(scope.conf.machineName);
-   
    if (process.platform.toLowerCase() === 'linux') {
       // Linux
       r = 'docker-machine does not exist on linux. you are good to go.';
@@ -46,82 +44,79 @@ var machineExec = function (args, cb) {
             cb(null, stdout);
          }
       });
-   }
-   else {
+   } else {
       // OSX
       var proc = childProcess.spawn('docker-machine', args);
       proc.stdout.setEncoding('utf8');
       proc.stderr.setEncoding('utf8');
-      
       proc.on('unhandledRejection', function (reason, p) {
          console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason);
-
       });
-      proc.stdout.on('data', function (data) {
+      proc.stdout.on('data',function(data) {
          if (data) {
-            if (r) {
-               r = r + data;
-            } else {
-               r = data;
-            }
+             if (r) {
+                 r = r + data;
+             } else {
+                 r = data;
+             }
          }
       });
-      proc.stderr.on('data', function (data) {
+      proc.stderr.on('data',function(data) {
          err = data;
       });
-      proc.on('close', function (exitCode) {
+      proc.on('close',function(exitCode) {
          if (exitCode !== 0) {
-            err = 'exit code ' + exitCode;
+             err = Error('exit code ' + exitCode);
          } else if (r) {
-            r = fancy(r);
+             r = r.trim();
+             cb(err,r);
          }
-         cb(err, r);
       });
    }
 };
 
-var allServices = function (transformer, cb) {
-   git.currentBranch(function (err, currentBranch) {
-      if (err) cb(err, null);
-      d.listContainers(function (err, allContainers) {
+var allServices = function(transformer,cb) {
+   git.currentBranch(function(err, currentBranch) {
+      if (err) {
+         //  no need to fail here. we are simply not in a a git repo
+         currentBranch = '';
+      }
+      d.listContainers(function(err,allContainers) {
          var err = err;
          var data = null;
          var cols = [];
-         var f = function (x) {
+         var f = function(x) {
             var r;
             switch (typeof x) {
                case 'string':
-                  r = x.trim();
+               r = x.trim();
                default:
-                  r = x;
+               r =x;
             }
             return r;
          };
+
          if (!err) {
-            var goodContainers = allContainers.filter(function (container) {
+            var goodContainers = allContainers.filter(function(container) {
                var exists = false, isOrchestra = false;
                exists = ("Labels" in container && "io.sjc.orchestra.version" in container.Labels);
-               if (exists) {
-                  //isOrchestra = /v/i.test(container.Labels['io.sjc.orchestra.version']);
-                  isOrchestra = true;
-               }
-               return exists && isOrchestra;
+                  if (exists) {
+                     isOrchestra = true;
+                  }
+                  return exists && isOrchestra;
             });
             if (goodContainers.length) {
-               cols = goodContainers.map(function (container, n) {
+               cols = goodContainers.map(function(container,n) {
+                  var appService;
                   var url = null;
                   var port = null;
                   var isAmbassador = container.Labels['io.sjc.orchestra.service.ambassador'];
                   var isSelected = (container.Labels['io.sjc.orchestra.ref'].trim() == currentBranch.trim());
-                  if (isAmbassador && container.Ports.length && container.Ports[0].PublicPort) {
-                     port = container.Ports[0].PublicPort;
-                     url = 'http://' + localMachine.host + ':' + port;
-                  }
-                  return {
+                  appService = {
                      id: container.Id,
                      created: container.Created,
                      project: f(container.Labels['io.sjc.orchestra.project']),
-                     app: f(container.Labels['io.sjc.orchestra.app.name']),
+                     app: f(container.Labels['io.sjc.orchestra.app.slug']),
                      branch: f(container.Labels['io.sjc.orchestra.ref']),
                      selected: isSelected,
                      service: f(container.Labels['io.sjc.orchestra.service.name']),
@@ -131,10 +126,18 @@ var allServices = function (transformer, cb) {
                      url: url,
                      status: f(container.Status)
                   };
+                  if (isAmbassador && container.Ports.length && container.Ports[0].PublicPort) {
+                     port = container.Ports[0].PublicPort;
+                     //url = 'http://' + localMachine.host + ':' + port;
+                     url = 'http://' + [appService.project,appService.app,appService.branch,appService.service, scope.conf.docker.machine.dev.tld ].join(".");
+                  }
+                  appService.port = port;
+                  appService.url = url;
+                  return appService;
                });
             }
             data = cols;
-            data.sort(function (a, b) {
+            data.sort(function(a,b) {
                var r = 1;
                if (a.created < b.created) {
                   r = r * -1;
@@ -144,9 +147,9 @@ var allServices = function (transformer, cb) {
             if (typeof transformer === 'function') {
                data = transformer(data);
             }
-         }
-         if (!data) {
-            err = Error('There was no container match');
+            if (!data) {
+               err = Error('There are no services running that match that criteria');
+            }
          }
          cb(err, data);
       });
@@ -165,6 +168,9 @@ var D = {
       },
       stop: function (cb) {
          machineExec(['stop'], cb);
+      },
+      ip: function(cb) {
+        machineExec(['ip'], cb); 
       }
    },
    getContainer: function (token, cb) {
@@ -203,6 +209,9 @@ var D = {
       };
       allServices(f, cb);
    },
+   searchContainer: function(transformer,cb) {
+        allServices(transformer,cb);
+    },   
    getRunningServices: function (cb) {
       allServices(null, function (err, data) {
          cb(err, data);

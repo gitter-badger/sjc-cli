@@ -9,8 +9,9 @@ function CLIError(err) {
    var message = err.message || this.name;
    this.message = fancy(message, 'error');
    playsound('bad');
-   console.error(this.message);   
+   console.error(this.message);
 }
+
 CLIError.prototype = Object.create(Error.prototype);
 CLIError.prototype.constructor = CLIError;
 

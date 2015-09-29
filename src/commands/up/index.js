@@ -6,7 +6,7 @@
  * 
  */
 
-var d = require('../../docker-toolbox.js')
+var d = require('../../docker-toolbox.js');
 
 var run = function () {
    var self = this;

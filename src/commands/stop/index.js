@@ -10,6 +10,8 @@
 
 var d = require('../../docker-toolbox.js');
 var fancy = require('../../fancy');
+var restClient = require('../../restClient.js');
+
 
 var run = function () {
    // this.resolve and this.reject passed in via fn.apply() from cli.js   
