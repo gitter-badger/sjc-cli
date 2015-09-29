@@ -9,51 +9,69 @@
  */
 
 var d = require('../../docker-toolbox.js'),
-    fancy = require('../../fancy.js'),
-    spawn = require('child_process').spawn;
+   fancy = require('../../fancy.js'),
+   spawn = require("../../spawn.js");
 
 //  platform-specifc config
 var ubuntu = {
-    command: 'xdg-open',
+   command: 'xdg-open',
 };
 var osx = {
-    command: 'open'
+   command: 'open'
 };
 var options = {
-    stdio: ['ignore','ignore','ignore'],
-    detached: true
+   stdio: ['ignore', 'ignore', 'ignore'],
+   detached: true
 };
 var params = {};
 ubuntu.options = osx.options = options;
 switch (process.platform.toLocaleLowerCase()) {
-    case 'darwin':
-    params.command = osx.command;
-    params.options = osx.options;
-    break;
-    case 'linux':
-    default:
-    params.command = ubuntu.command;
-    params.options = ubuntu.options;
-    break;
+   case 'darwin':
+      params.command = osx.command;
+      params.options = osx.options;
+      break;
+   case 'linux':
+   default:
+      params.command = ubuntu.command;
+      params.options = ubuntu.options;
+      break;
 }
 
-var run = function(good,bad) {
-    var action;
-    if (!(this.args.length)) {
-        bad('you need to pass container index or partial id');
-    } else {
-        d.getContainer(this.args[0],function(err,container) {
+var run = function () {
+   // this.resolve, this.reject and this.scope passed in via fn.apply() from cli.js
+   var self = this;
+   // Normalize arguments to an array   
+   var args = [].slice.apply(arguments);
+   
+   return new Promise(function (resolve, reject) {
+      var action;
+      if (!(args.length)) {
+         self.reject('you need to pass container index or partial id');
+      } 
+      else {
+         d.getContainer(args[0], function (err, container) {
             if (err) {
-                bad(err);
-            } else {
-                params.args = [container.url];
-                action = spawn(params.command,params.args,params.options);
-                good( fancy(container.url,'default') );
-            }
-        });        
-    }
-};
+               self.reject(err);
+            } 
+            else {
+               params.args = [container.url];
+               
+               var cmdObject = {
+                  command: params.command,
+                  args: params.args,
+                  options: params.options
+               };
+               
+               spawn(cmdObject).then(function (results) {
+                  self.resolve(fancy(container.url, 'default'));
+               }).catch(function (reason) {
+                  self.reject(reason);
+               });
 
-module.exports = function(Command,scope) {
-    return new Command(scope,run);
-};
+            }
+         });
+      }
+   });
+}
+
+module.exports = run;

@@ -7,14 +7,17 @@
  * @example sjc info (from anywhere else)
  */
 
-module.exports = function(Command,scope) { 
-    return new Command(scope,function(good,bad){
-        scope.enhance(function(err,newcope) {
-            if (err) {
-                bad(err);  
-            } else {
-                good(scope);    
-            }
-        });
-    });
+module.exports = function () {
+   // this.resolve, this.reject and this.scope passed in via fn.apply() from cli.js
+   var self = this;
+   // Normalize arguments to an array   
+   var args = [].slice.apply(arguments);
+   
+   self.scope.enhance(function (err, newcope) {
+      if (err) {
+         self.reject(err);
+      } else {
+         self.resolve(self.scope);
+      }
+   });
 };

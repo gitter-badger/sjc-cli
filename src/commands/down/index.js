@@ -8,39 +8,17 @@
 
 var d = require('../../docker-toolbox.js');
 
-var run = function(good,bad) {
-
-    d.machine.stop(function(err,data){
-        if (err) {
-            bad(err);
-        } else {
-            good(data);
-        }
-    });
-
-    /*
-    var dockerMachine = childProcess.spawn('docker-machine',['stop','default']);
-    var r='',err='';
-    dockerMachine.stdout.setEncoding('utf8');
-    dockerMachine.stdout.on('data',function(data) {
-        r += data;
-    });
-    dockerMachine.stderr.on('data',function(data) {
-        err += data;
-    });
-    dockerMachine.on('close',function(code) {
-        if (code !== 0) {
-            err = Error('Process exited with error code ' + code);
-        }
-        if (err) {
-            bad(err);
-        } else {
-            good(r);
-        }
-    });
-    */
+var run = function () {
+   // this.resolve and this.reject passed in via fn.apply() from cli.js
+   var self = this;
+   
+   d.machine.stop(function (err, data) {
+      if (err) {
+         self.reject(err);
+      } else {
+         self.resolve(data);
+      }
+   });
 };
 
- module.exports = function(Command,scope) {
-    return new Command(scope,run);
- };
+module.exports = run;

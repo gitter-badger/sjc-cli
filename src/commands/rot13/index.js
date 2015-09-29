@@ -7,16 +7,19 @@
  * @example cat /etc/passwd | sjc rot13
  */
 
-var rot = require('rot');
+var rot = require("rot");
 
-var run = function(good,bad) {
-    if (this.args.length) {
-        good( rot( this.args.join(' ') ) );
-    } else {
-        bad(Error('You didnt send enough arguments'));
-    }
+var run = function () {
+   // this.resolve and this.reject passed in via fn.apply() from cli.js   
+   var self = this;
+   // Normalize arguments to an array
+   var args = [].slice.apply(arguments);
+   
+   if (args.length) {
+      self.resolve(rot(args.join(' ')));
+   } else {
+      self.reject(Error("You didn't send enough arguments"));
+   }
 };
 
-module.exports = function(Command,scope) {
-    return new Command(scope,run);
-};
+module.exports = run;

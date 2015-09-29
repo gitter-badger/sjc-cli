@@ -7,24 +7,25 @@
  * @example sjc build
  */
 
-var proc = require('child_process');
+var spawn = require("../../spawn.js");
 
-var run = function(good,bad) {
-    var scope = this;
-    var params = {
-        command: process.cwd()+'/build.sh',
-        args: scope.args,
-        options: {}
-    };
-    proc.execFile(params.command,params.args,params.options,function(err,stdout,stderr) {
-        if (err) {
-            bad(err);
-        } else {
-            good(stdout);
-        }
-    });
+var run = function () {
+   // this.resolve, this.reject and this.scope passed in via fn.apply() from cli.js
+   var self = this;
+   // Normalize arguments to an array   
+   var args = [].slice.apply(arguments);
+   
+   var cmdObject = {
+      command: process.cwd() + "/build.sh",
+      args: args,
+      options: {}
+   };
+   
+   spawn(cmdObject).then(function (results) {
+      self.resolve(results);
+   }).catch(function (reason) {
+      self.reject(reason);
+   });
 };
 
-module.exports = function(Command,scope) {
-    return new Command(scope,run);
-};
+module.exports = run;

@@ -7,29 +7,33 @@
  * @example sjc stop e4f2
  */
 
+
 var d = require('../../docker-toolbox.js');
 var fancy = require('../../fancy');
 
-var run = function(good,bad) {
-    d.getContainer(this.args[0],function(err,container) {
-        if (err) {
-            bad(err);
-        } else {
-            if (container === null) {
-                bad(Error('The container could not be found'));
-            } else {
-                d.docker.getContainer(container.id).stop(function(err,data){
-                    if (err) {
-                        bad(err);
-                    } else {
-                        good(fancy('The container was stopped','success'));
-                    }
-                });
-            }
-        }
-    });
+var run = function () {
+   // this.resolve and this.reject passed in via fn.apply() from cli.js   
+   var self = this;
+   // Normalize arguments to an array
+   var args = [].slice.apply(arguments);
+   
+   d.getContainer(args[0], function (err, container) {
+      if (err) {
+         self.reject(err);
+      } else {
+         if (container === null) {
+            self.reject(Error('The container could not be found'));
+         } else {
+            d.docker.getContainer(container.id).stop(function (err, data) {
+               if (err) {
+                  self.reject(err);
+               } else {
+                  self.resolve(fancy('The container was stopped', 'success'));
+               }
+            });
+         }
+      }
+   });
 };
 
-module.exports = function(Command,scope) {
-    return new Command(scope,run);
-};
+module.exports = run;

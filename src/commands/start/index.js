@@ -10,36 +10,40 @@
  * @example sjc start cerebrum --hard	# starts the app with no mounting of local directories into the host.
  */
 
-var d = require*('../../docker-toolbox.js').docker;
-var child_process = require('child_process');
-var colour = require('bash-color');
-var git = require('../../git');
-var fancy = require('../../fancy');
+var d = require * ('../../docker-toolbox.js').docker,
+   spawn = require("../../spawn.js"),
+   colour = require('bash-color'),
+   git = require('../../git'),
+   fancy = require('../../fancy');
 
-var run = function(good,bad) {
-    var scope = this;
-    var params = {
-        command: process.cwd() + '/run.sh',
-        args: this.args,
-        options: {}
-    };
-    scope.enhance(function(err,ok){
-        git.currentBranch(function(err,branch){
-            if (err) {
-                bad(err);
-            } else {
-                child_process.execFile(params.command,params.args,params.options,function(err,stdout,stderr) {
-                    if (err) {
-                        bad(err);
-                    } else {
-                        good(fancy(scope.appdef.project.name + ' / ' + scope.appdef.name + ' : ' +  branch + ' now running' ,'success'));
-                    }
-                });
-            }
-        });
-    });
+var run = function () {
+   // this.resolve and this.reject passed in via fn.apply() from cli.js   
+   var self = this;
+   // Normalize arguments to an array
+   var args = [].slice.apply(arguments);
+   
+   var scope = self.scope;
+   
+   var cmdObject = {
+      command: process.cwd() + '/run.sh',
+      args: args,
+      options: {}
+   };
+   
+   self.scope.enhance().then(function (result) {
+      git.currentBranch().then(function (result) {
+         spawn(cmdObject).then(function (result) {
+            self.resolve(result);
+         }).catch(function (reason) {
+            self.reject(fancy(self.scope.appdef.project.name + ' / ' + self.scope.appdef.name + ' : ' + branch + ' now running' , 'success'));
+         });
+      }).catch(function (reason) {
+         self.reject(err);
+      });
+   }).catch(function (reason) {
+      console.error(reason);
+      self.reject(reason);
+   });
 };
 
-module.exports = function(Command,scope) { 
-    return new Command(scope,run);
-};
+module.exports = run;

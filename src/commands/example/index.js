@@ -9,37 +9,28 @@
  * @example: sjc throw
  */
 
-var run = function(good,bad) {
-
-    /**
+var run = function () {
+   // this.resolve, this.reject and this.scope passed in via fn.apply() from cli.js
+   var self = this;
+   // Normalize arguments to an array   
+   var args = [].slice.apply(arguments);
+   
+   /**
      * this performs our main logic. when we passed `scope` in, it attached to `this`
      * good is a callback function for when things turned out ok
      * bad is it's evil twin
      */
 
-     var scope = this;
-
-    if ( scope.args[0] === 'throw' ) {
-        bad('i am throwing an error');
-    } else {
-        //  let's show the user everything in run's scope, which we bound to "this"
-        good(scope);
-    }
+   var scope = self.scope;
+   
+   if (args[0] === 'throw') {
+      self.reject('i am throwing an error');
+   } 
+   else {
+      //  let's show the user everything in run's scope, which we bound to "this"
+      self.resolve(scope);
+   }
 };
 
 
-module.exports = function(Command,scope) {
-
-    /**
-     * Command is the Command.js constructor
-     * scope is an object made up of data we think the command might need.
-     * we can modify it as desired. ex:
-     */
-
-    scope.userPreferences = {
-        favouriteColour: 'blue'
-    };
-    scope.conf.soundEffects.volume = 0.5;
-
-    return new Command(scope,run);
-};
+module.exports = run;

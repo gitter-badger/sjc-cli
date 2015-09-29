@@ -5,18 +5,17 @@
  * Maybe in the future it will do other stuff
  */
 
- var machine = require('../../docker-toolbox.js').machine;
+var machine = require('../../docker-toolbox.js').machine;
 
- var run = function(good,bad) {
-    machine.getStatus(function(err,data) {
-        if (err) {
-            bad(err);
-        } else {
-            good(data);
-        }
-    });
- };
+var run = function () {
+   var self = this;
+   machine.getStatus(function (err, data) {
+      if (err) {
+         self.reject(err);
+      } else {
+         self.resolve(data);
+      }
+   });
+};
 
- module.exports = function(Command,scope) {
-    return new Command(scope,run);
- };
+module.exports = run;

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{ba244419-6ef4-43e3-bd11-817e0c80f21e}</ProjectGuid>
+    <ProjectGuid>{cb216631-f1ae-4f56-bb56-338d8a0ff5e5}</ProjectGuid>
     <ProjectHome />
     <ProjectView>ShowAllFiles</ProjectView>
     <StartupFile>src\cli.js</StartupFile>
@@ -12,34 +12,97 @@
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ScriptArguments>up</ScriptArguments>
     <StartWebBrowser>True</StartWebBrowser>
+    <ScriptArguments>browse 1</ScriptArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Content Include=".dockerignore" />
+    <Content Include=".gitignore" />
+    <Content Include="appdef.json" />
+    <Content Include="cli.sh" />
     <Content Include="install-windows.sh" />
+    <Content Include="install.sh" />
     <Content Include="package.json" />
     <Content Include="README.md" />
-    <Compile Include="Gulpfile.js" />
+    <Compile Include="gulpfile.js" />
     <Compile Include="dist\cli.js" />
+    <Content Include="lint\jscs.javascript.json" />
+    <Content Include="lint\jscs.javascript.node.json" />
+    <Content Include="lint\jscs.json" />
+    <Content Include="src\config.json" />
     <Compile Include="src\cli.js" />
-    <Compile Include="tests\point.spec.js" />
+    <Compile Include="src\Command.js" />
+    <Compile Include="src\cli-test.js" />
+    <Compile Include="src\docker-toolbox.js" />
+    <Compile Include="src\error.js" />
+    <Compile Include="src\fancy.js" />
+    <Compile Include="src\git.js" />
+    <Compile Include="src\mockRegistry.js" />
+    <Compile Include="src\playsound.js" />
+    <Compile Include="src\scope.js" />
     <Compile Include="dist\commands\dogsays\index.js" />
     <Compile Include="dist\commands\help\index.js" />
+    <Content Include="src\assets\help.credits.txt" />
+    <Content Include="src\assets\help.general.txt" />
+    <Content Include="src\assets\help.licence.txt" />
+    <Content Include="src\assets\help.subcommand.bootstrap.txt" />
+    <Content Include="src\assets\help.subcommand.cat.txt" />
+    <Compile Include="src\commands\browse\index.js" />
+    <Compile Include="src\commands\build\index.js" />
     <Compile Include="src\commands\dogsays\index.js" />
+    <Compile Include="src\commands\down\index.js" />
+    <Compile Include="src\commands\example\index.js" />
+    <Content Include="src\commands\help\help.md" />
     <Compile Include="src\commands\help\index.js" />
+    <Compile Include="src\commands\info\index.js" />
+    <Compile Include="src\commands\ls\apps.js" />
+    <Compile Include="src\commands\ls\containers.js" />
+    <Compile Include="src\commands\ls\index.js" />
+    <Compile Include="src\commands\rot13\index.js" />
+    <Compile Include="src\commands\start\index.js" />
+    <Compile Include="src\commands\status\index.js" />
+    <Compile Include="src\commands\stop\index.js" />
+    <Compile Include="src\commands\up\index.js" />
+    <Compile Include="src\commands\weirdfacts\index.js" />
+    <Compile Include="src\commands\yaml\index.js" />
+    <Content Include="test\assets\rot13.test.txt" />
+    <Content Include="test\assets\words.txt" />
+    <Content Include="test\commands\rot13.test.txt" />
+    <Compile Include="src\spawn.js" />
+    <Compile Include="test\commands\dogsays.js" />
+    <Compile Include="test\commands\help.js" />
+    <Content Include="test\support\jasmine.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist" />
     <Folder Include="dist\commands" />
     <Folder Include="dist\commands\dogsays" />
     <Folder Include="dist\commands\help" />
+    <Folder Include="lint" />
     <Folder Include="src" />
+    <Folder Include="src\assets" />
     <Folder Include="src\commands" />
+    <Folder Include="src\commands\browse" />
+    <Folder Include="src\commands\build" />
     <Folder Include="src\commands\dogsays" />
+    <Folder Include="src\commands\down" />
+    <Folder Include="src\commands\example" />
     <Folder Include="src\commands\help" />
-    <Folder Include="tests" />
+    <Folder Include="src\commands\info" />
+    <Folder Include="src\commands\ls" />
+    <Folder Include="src\commands\rot13" />
+    <Folder Include="src\commands\start" />
+    <Folder Include="src\commands\status" />
+    <Folder Include="src\commands\stop" />
+    <Folder Include="src\commands\up" />
+    <Folder Include="src\commands\weirdfacts" />
+    <Folder Include="src\commands\yaml" />
+    <Folder Include="test" />
+    <Folder Include="test\assets" />
+    <Folder Include="test\commands" />
+    <Folder Include="test\support" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->

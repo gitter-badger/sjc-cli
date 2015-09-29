@@ -8,17 +8,16 @@
 
 var d = require('../../docker-toolbox.js')
 
-var run = function (good, bad) {
-   console.log("Note: Cold starting VirtualBox VM takes a minute.");
-    d.machine.start(function(err,data){
-        if (err) {
-            bad(err);
-        } else {
-            good(data);
-        }
-    });
+var run = function () {
+   var self = this;
+   console.log("Note: Cold starting VirtualBox VM on Windows and OSX takes a minute.");
+   d.machine.start(function (err, data) {
+      if (err) {
+         self.reject(err);
+      } else {
+         self.resolve(data);
+      }
+   });
 };
 
-module.exports = function(Command,scope) {
-    return new Command(scope,run);
-};
+module.exports = run;
