@@ -4,13 +4,19 @@ var cli = function () { }
 var fs = require('fs'),
     CLIError = require('./error.js'),
     path = require("path"),
-    scope = require('./scope.js'),
-    commandName = process.argv[2] || "help",
+    scope = require('./scope.js'), // Mainly a property bag of data including command, args, settings and current application definition
     command = function () { },   // jscs:disable requireSpacesInFunction, requireSpaceBeforeBlockStatements
-    args = process.argv.slice(3),
     spawn = require("./spawn.js");
-//legalCommandNames = [];
 
+    /* To-do 
+     * -----
+     * Implement a command parser such as https://www.npmjs.com/package/commander
+     * Add a command to specify path to appdef with appropriate default behaviour
+     * Consider moving scope code inside this module since it is entirely coupled
+     * Refactor out scope.args as we are already passing scope in several methods
+     * 
+     */
+    
 // Promise resolution handler
 function good(stuff) {
     switch (typeof stuff) {
@@ -45,7 +51,7 @@ function bad(errorOrString) {
 
 function getLegalCommandNames() {
     return new Promise(function (resolve, reject) {
-        fs.readdir(__dirname + '/commands', function (err, files) {
+        fs.readdir(path.join(__dirname, 'commands'), function (err, files) {
             if (err) {
                 reject(new CLIError(err));
             }
@@ -60,12 +66,12 @@ function getLegalCommandNames() {
 }
 
 
-cli.run = function (commandName, args, scope) {
+cli.run = function (scope) {
     return new Promise(function (resolve, reject) {
         getLegalCommandNames().then(function (legalCommandNames) {
-            if (legalCommandNames.indexOf(commandName) > -1) {
-                command = require('./commands/' + commandName);
-                command.apply(scope, args).then(function (result) {
+            if (legalCommandNames.indexOf(scope.commandName) > -1) {
+                command = require('./commands/' + scope.commandName);
+                command.apply().then(function (result) { 
                     resolve(result);
                 }).catch(function (reason) {
                     reject(reason);
@@ -74,7 +80,7 @@ cli.run = function (commandName, args, scope) {
             else {
                 // It is not built-in command so assume it is a properly written external command and attempt to spawn it
                 var spawnOptions = {};
-                spawn(commandName, args, spawnOptions).then(function (result) {
+                spawn(scope.commandName, scope.args, spawnOptions).then(function (result) {
                     resolve(result);
                 }).catch(function (reason) {
                     reject(reason);
@@ -89,7 +95,7 @@ cli.run = function (commandName, args, scope) {
 }
 
 if (!module.parent) {
-    return cli.run(commandName, args, scope).then(function (result) {
+    return cli.run(scope).then(function (result) {
         good(result);
     }).catch(function (reason) {
         bad(reason);
