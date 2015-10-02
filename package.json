@@ -4,7 +4,7 @@
   "description": "command-line utility for SJC developers and ops engineers",
   "main": "cli.sh",
   "scripts": {
-    "test": "bash test/jasmine-harmony.sh",
+    "test": "node_modules/.bin/mocha -w",
     "lint": "gulp lint"
   },
   "bin": {
@@ -29,12 +29,15 @@
   },
   "homepage": "https://github.com/stjosephcontent/sjc-cli#README",
   "devDependencies": {
+    "fixture-stdout": "^0.2.1",
     "gulp": "^3.9.0",
     "gulp-jasmine": "^2.0.1",
     "gulp-jshint": "^1.11.2",
     "jasmine": "^2.3.2",
     "jasmine-core": "^2.3.4",
-    "jshint": "^2.8.0"
+    "jshint": "^2.8.0",
+    "mocha": "^2.3.3",
+    "should": "^7.1.0"
   },
   "dependencies": {
     "bash-color": "0.0.3",
