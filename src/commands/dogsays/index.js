@@ -12,28 +12,31 @@
 const dogChar = '🐕 ';
 const validWords = ['bark', 'ruff', 'woof'];
 var barkIt = function (word) {
-   return word.toUpperCase() + '!';
+    return word.toUpperCase() + '!';
 };
 
 var run = function () {
-   // this.resolve, this.reject and this.scope passed in via fn.apply() from cli.js
-   var self = this;
-   // Normalize arguments to an array   
-   var args = [].slice.apply(arguments);
-
-   var words = args;
-   var inValidDogWords = words.filter(function (word) {
-      return (validWords.indexOf(word.toLowerCase()) === -1);
-   }).filter(function (word) {
-      return (word);
-   });
-   if (!words.length) {
-      self.reject(Error('This command needs at least one argument'));
-   } else if (inValidDogWords.length) {
-      self.reject(Error('Dogs dont say ' + inValidDogWords.join(' or ')));
-   } else {
-      self.resolve([dogChar + '  says'].concat(words.map(barkIt)).join(' '));
-   }
+    var scope = this;
+    // Normalize arguments to an array   
+    var args = [].slice.apply(arguments);
+    
+    return new Promise(function (resolve, reject) {
+        var words = args;
+        var inValidDogWords = words.filter(function (word) {
+            return (validWords.indexOf(word.toLowerCase()) === -1);
+        }).filter(function (word) {
+            return (word);
+        });
+        if (!words.length) {
+            reject(Error('This command needs at least one argument'));
+        } 
+        else if (inValidDogWords.length) {
+            reject(Error('Dogs dont say ' + inValidDogWords.join(' or ')));
+        } 
+        else {
+            resolve([dogChar + '  says'].concat(words.map(barkIt)).join(' '));
+        }
+    });
 };
 
 module.exports = run;

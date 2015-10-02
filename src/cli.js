@@ -1,70 +1,99 @@
 "use strict"
+var cli = function () { }
 
 var fs = require('fs'),
-   CLIError = require('./error.js'),
-   scope = require('./scope.js'),
-   commandName = process.argv[2] || "help",
-   command = function () { },   // jscs:disable requireSpacesInFunction, requireSpaceBeforeBlockStatements
-   args = process.argv.slice(3),
-   legalCommandNames = [];
+    CLIError = require('./error.js'),
+    path = require("path"),
+    scope = require('./scope.js'),
+    commandName = process.argv[2] || "help",
+    command = function () { },   // jscs:disable requireSpacesInFunction, requireSpaceBeforeBlockStatements
+    args = process.argv.slice(3),
+    spawn = require("./spawn.js");
+//legalCommandNames = [];
 
 // Promise resolution handler
 function good(stuff) {
-   switch (typeof stuff) {
-      case 'function':
-         stuff();
-         break;
-      case 'number':
-      case 'string':
-      case 'object':
-         console.log(stuff);
-         break;
-      default:
-   }
+    switch (typeof stuff) {
+        case 'function':
+            stuff();
+            break;
+        case 'number':
+        case 'string':
+        case 'object':
+            console.log(stuff);
+            break;
+        default:
+    }
 }
 
 // Promise rejection handler
 function bad(errorOrString) {
-   var error;
-   if (typeof errorOrString === 'string') {
-      error = new Error(errorOrString);
-   } 
-   else if (errorOrString instanceof Error) {
-      error = errorOrString;
-   }
-   else {
-      error = Error('Badly Invoked Error with type: ' + typeof errorOrString);
-      console.error(errorOrString);
-   }
-   throw new CLIError(error);
+    var error;
+    if (typeof errorOrString === 'string') {
+        error = new Error(errorOrString);
+    } 
+    else if (errorOrString instanceof Error) {
+        error = errorOrString;
+    }
+    else {
+        error = Error('Badly Invoked Error with type: ' + typeof errorOrString);
+        console.error(errorOrString);
+    }
+    throw new CLIError(error);
 }
 
-// Iterate commands folder and build a list of valid commands
-fs.readdir(__dirname + '/commands', function (err, files) {
-   if (err) {
-      throw new CLIError(err);
-   }
-   
-   // legalCommandNames are JavaScript filenames with the .js extension removed
-   legalCommandNames = files.map(function (fylename) {
-      return fylename.replace(/\.js$/, '');
-   });
-   
-   if (legalCommandNames.indexOf(commandName) > -1) {
-      // If the passed command exists then require its code
-      command = require('./commands/' + commandName);
-      
-      // The command should expose a run() interface as its default to which we will apply handlers and scope as 'this' plus any additional arguments passed into cli.js
-      var handlersAndScope = {
-         "resolve": good,
-         "reject": bad,
-         "scope": scope
-      }
-      command.apply(handlersAndScope, args);
-   } 
-   else {
-      // Command does not exist. Bad command. 
-      // To-do: Consider calling help?
-      bad('command  ' + commandName + ' does not exist');
-   }
-});
+
+function getLegalCommandNames() {
+    return new Promise(function (resolve, reject) {
+        fs.readdir(__dirname + '/commands', function (err, files) {
+            if (err) {
+                reject(new CLIError(err));
+            }
+            
+            // legalCommandNames are JavaScript filenames with the .js extension removed
+            var legalCommandNames = files.map(function (fylename) {
+                return fylename.replace(/\.js$/, '');
+            });
+            resolve(legalCommandNames);
+        });
+    });
+}
+
+
+cli.run = function (commandName, args, scope) {
+    return new Promise(function (resolve, reject) {
+        getLegalCommandNames().then(function (legalCommandNames) {
+            if (legalCommandNames.indexOf(commandName) > -1) {
+                command = require('./commands/' + commandName);
+                command.apply(scope, args).then(function (result) {
+                    resolve(result);
+                }).catch(function (reason) {
+                    reject(reason);
+                });
+            } 
+            else {
+                // It is not built-in command so assume it is a properly written external command and attempt to spawn it
+                var spawnOptions = {};
+                spawn(commandName, args, spawnOptions).then(function (result) {
+                    resolve(result);
+                }).catch(function (reason) {
+                    reject(reason);
+                });
+            }
+
+        }).catch(function (reason) {
+            // Problem with getLegalNames
+            reject(reason);
+        });
+    });
+}
+
+if (!module.parent) {
+    return cli.run(commandName, args, scope).then(function (result) {
+        good(result);
+    }).catch(function (reason) {
+        bad(reason);
+    });
+}
+
+module.exports = cli;

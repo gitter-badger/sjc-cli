@@ -13,12 +13,18 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <StartWebBrowser>True</StartWebBrowser>
-    <ScriptArguments>browse 1</ScriptArguments>
+    <ScriptArguments>notepad</ScriptArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
+    <Compile Include="test\MochaTest.js">
+      <SubType>Code</SubType>
+      <TestFramework>Mocha</TestFramework>
+    </Compile>
+    <Compile Include="test\stdio-hook.js" />
     <Content Include=".dockerignore" />
+    <Content Include=".editorconfig" />
     <Content Include=".gitignore" />
     <Content Include="appdef.json" />
     <Content Include="cli.sh" />
@@ -81,6 +87,7 @@
     <Folder Include="dist\commands\dogsays" />
     <Folder Include="dist\commands\help" />
     <Folder Include="lint" />
+    <Folder Include="tests\" />
     <Folder Include="src" />
     <Folder Include="src\assets" />
     <Folder Include="src\commands" />
