@@ -26,7 +26,7 @@ if (process.platform.toLowerCase() === 'darwin') {
 
 var machineExec = function (args, cb) {
    var err = null, r = null;
-   args.push(scope.conf.machineName);
+   args.push(scope.machineName());
    if (process.platform.toLowerCase() === 'linux') {
       // Linux
       r = 'docker-machine does not exist on linux. you are good to go.';

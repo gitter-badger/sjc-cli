@@ -12,6 +12,9 @@ var scope = {
     conf: conf,
     appdef: null,
     repo: null,
+    machineName: function(){
+        return Object.keys( conf.docker.machine )[0];
+    },
     enhance: function(cb) {
         git.currentBranch(function(err,branch) {
             if (err) {
