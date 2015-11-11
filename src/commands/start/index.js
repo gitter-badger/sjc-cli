@@ -34,7 +34,7 @@ var run = function(good,bad) {
         var ambassador = Object.keys(scope.appdef.services).filter(function(servicename){
             return ( scope.appdef.services[servicename].ambassador === true );
         }).pop();
-        var permalink = [scope.appdef.project.slug,scope.appdef.slug,scope.repo.branch,ambassador, scope.conf.docker.machine.dev.tld ].join('.').trim();
+        var permalink = [scope.appdef.project.slug, scope.appdef.slug,scope.repo.branch, ambassador, scope.docker.machine.tld ].join('.').trim();
         if (!ambassador) {
             bad(Error('No ambassador specified in appdef. Orchestra doesn\'t know what service to expose'));
         } else {

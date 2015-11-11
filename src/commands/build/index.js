@@ -14,7 +14,9 @@ var run = function(good,bad) {
     var params = {
         command: process.cwd()+'/build.sh',
         args: scope.args,
-        options: {}
+        options: {
+            maxBuffer: 1024 * 1024
+        }
     };
     proc.execFile(params.command,params.args,params.options,function(err,stdout,stderr) {
         if (err) {

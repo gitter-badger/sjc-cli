@@ -17,6 +17,8 @@
 var scope = require('../../scope.js');
 var isFlag = /^\-{1,2}\w+/;
 
+//  this effectively makes the default command:
+//  $ sjc ls containers
 if ( isFlag.test(scope.args[0]) || scope.args.length === 0 ) {
     scope.args.unshift('containers');
 }

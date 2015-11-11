@@ -24,135 +24,142 @@ if (process.platform.toLowerCase() === 'darwin') {
    d = new Docker();
 }
 
-var machineExec = function (args, cb) {
-   var err = null, r = null;
-   args.push(scope.machineName());
-   if (process.platform.toLowerCase() === 'linux') {
-      // Linux
-      r = 'docker-machine does not exist on linux. you are good to go.';
-      cb(err, r);
-   } 
-   else if (process.platform.toLowerCase() === "win32") {
-      // Windows - Since we don't need to reference docker-machine later we can simply exec on Windows      
-      var exec = require("child_process").exec;
-      var command = ["docker-machine"].concat(args).join(" ");
-      exec(command, function (err, stdout, stderr) {
-         if (err) {
-            cb(err);
-         }
-         else { 
-            cb(null, stdout);
-         }
-      });
-   } else {
-      // OSX
-      var proc = childProcess.spawn('docker-machine', args);
-      proc.stdout.setEncoding('utf8');
-      proc.stderr.setEncoding('utf8');
-      proc.on('unhandledRejection', function (reason, p) {
-         console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason);
-      });
-      proc.stdout.on('data',function(data) {
-         if (data) {
-             if (r) {
-                 r = r + data;
-             } else {
-                 r = data;
-             }
-         }
-      });
-      proc.stderr.on('data',function(data) {
-         err = data;
-      });
-      proc.on('close',function(exitCode) {
-         if (exitCode !== 0) {
-             err = Error('exit code ' + exitCode);
-         } else if (r) {
-             r = r.trim();
-             cb(err,r);
-         }
-      });
-   }
-};
-
 var allServices = function(transformer,cb) {
-   git.currentBranch(function(err, currentBranch) {
-      if (err) {
-         //  no need to fail here. we are simply not in a a git repo
-         currentBranch = '';
-      }
-      d.listContainers(function(err,allContainers) {
-         var err = err;
-         var data = null;
-         var cols = [];
-         var f = function(x) {
-            var r;
-            switch (typeof x) {
-               case 'string':
-               r = x.trim();
-               default:
-               r =x;
-            }
-            return r;
-         };
-
-         if (!err) {
-            var goodContainers = allContainers.filter(function(container) {
-               var exists = false, isOrchestra = false;
-               exists = ("Labels" in container && "io.sjc.orchestra.version" in container.Labels);
-                  if (exists) {
-                     isOrchestra = true;
-                  }
-                  return exists && isOrchestra;
-            });
-            if (goodContainers.length) {
-               cols = goodContainers.map(function(container,n) {
-                  var appService;
-                  var url = null;
-                  var port = null;
-                  var isAmbassador = container.Labels['io.sjc.orchestra.service.ambassador'];
-                  var isSelected = (container.Labels['io.sjc.orchestra.ref'].trim() == currentBranch.trim());
-                  appService = {
-                     id: container.Id,
-                     created: container.Created,
-                     project: f(container.Labels['io.sjc.orchestra.project']),
-                     app: f(container.Labels['io.sjc.orchestra.app.slug']),
-                     branch: f(container.Labels['io.sjc.orchestra.ref']),
-                     selected: isSelected,
-                     service: f(container.Labels['io.sjc.orchestra.service.name']),
-                     port: f(port),
-                     ambassador: f(isAmbassador),
-                     mounted: f(container.Labels['io.sjc.orchestra.service.volumeMounted']),
-                     url: url,
-                     status: f(container.Status)
-                  };
-                  if (isAmbassador && container.Ports.length && container.Ports[0].PublicPort) {
-                     port = container.Ports[0].PublicPort;
-                     //url = 'http://' + localMachine.host + ':' + port;
-                     url = 'http://' + [appService.project,appService.app,appService.branch,appService.service, scope.conf.docker.machine.dev.tld ].join(".");
-                  }
-                  appService.port = port;
-                  appService.url = url;
-                  return appService;
-               });
-            }
-            data = cols;
-            data.sort(function(a,b) {
-               var r = 1;
-               if (a.created < b.created) {
-                  r = r * -1;
+   scope.dockerMachine(function(err,localDockerMachine) {
+      if (err) cb(err,null);
+      git.currentBranch(function(err, currentBranch) {
+         if (err) {
+            //  no need to fail here. we are simply not in a a git repo
+            currentBranch = '';
+         }
+         d.listContainers(function(err,allContainers) {
+            var err = err;
+            var data = null;
+            var cols = [];
+            var f = function(x) {
+               var r;
+               switch (typeof x) {
+                  case 'string':
+                  r = x.trim();
+                  default:
+                  r =x;
                }
                return r;
-            });
-            if (typeof transformer === 'function') {
-               data = transformer(data);
+            };
+            if (!err) {
+               var goodContainers = allContainers.filter(function(container) {
+                  var exists = false, isOrchestra = false;
+                  exists = ("Labels" in container && "io.sjc.orchestra.version" in container.Labels);
+                     if (exists) {
+                        isOrchestra = true;
+                     }
+                     return exists && isOrchestra;
+               });
+               if (goodContainers.length) {
+                  cols = goodContainers.map(function(container,n) {
+                     var appService;
+                     var url = null;
+                     var port = null;
+                     var isAmbassador = container.Labels['io.sjc.orchestra.service.ambassador'];
+                     var isSelected = (container.Labels['io.sjc.orchestra.ref'].trim() == currentBranch.trim());
+                     appService = {
+                        id: container.Id,
+                        created: container.Created,
+                        project: f(container.Labels['io.sjc.orchestra.project']),
+                        app: f(container.Labels['io.sjc.orchestra.app.slug']),
+                        branch: f(container.Labels['io.sjc.orchestra.ref']),
+                        selected: isSelected,
+                        service: f(container.Labels['io.sjc.orchestra.service.name']),
+                        port: f(port),
+                        ambassador: f(isAmbassador),
+                        mounted: f(container.Labels['io.sjc.orchestra.service.volumeMounted']),
+                        url: url,
+                        status: f(container.Status)
+                     };
+                     if (isAmbassador && container.Ports.length && container.Ports[0].PublicPort) {
+                        port = container.Ports[0].PublicPort;
+                        url = 'http://' + [appService.project, appService.app, appService.branch,appService.service, localDockerMachine.tld].join(".");
+                     }
+                     appService.port = port;
+                     appService.url = url;
+                     return appService;
+                  });
+               }
+               data = cols;
+               data.sort(function(a,b) {
+                  var r = 1;
+                  if (a.created < b.created) {
+                     r = r * -1;
+                  }
+                  return r;
+               });
+               if (typeof transformer === 'function') {
+                  data = transformer(data);
+               }
+               if (!data) {
+                  err = Error('There are no services running that match that criteria');
+               }
             }
-            if (!data) {
-               err = Error('There are no services running that match that criteria');
-            }
-         }
-         cb(err, data);
+            cb(err, data);
+         });
       });
+   });
+};
+
+var machineExec = function (args, cb) {
+   var err = null, r = null;
+   scope.dockerMachine(function(err,localMachine){
+      if (err) {
+         cb(err,r);
+      } else {
+         args.push(localMachine.name);
+         if (process.platform.toLowerCase() === 'linux') {
+            // Linux
+            r = 'docker-machine does not exist on linux. you are good to go.';
+            cb(err, r);
+         } 
+         else if (process.platform.toLowerCase() === "win32") {
+            // Windows - Since we don't need to reference docker-machine later we can simply exec on Windows      
+            var exec = require("child_process").exec;
+            var command = ["docker-machine"].concat(args).join(" ");
+            exec(command, function (err, stdout, stderr) {
+               if (err) {
+                  cb(err);
+               }
+               else { 
+                  cb(null, stdout);
+               }
+            });
+         } else {
+            // OSX
+            var proc = childProcess.spawn('docker-machine', args);
+            proc.stdout.setEncoding('utf8');
+            proc.stderr.setEncoding('utf8');
+            proc.on('unhandledRejection', function (reason, p) {
+               console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason);
+            });
+            proc.stdout.on('data',function(data) {
+               if (data) {
+                   if (r) {
+                       r = r + data;
+                   } else {
+                       r = data;
+                   }
+               }
+            });
+            proc.stderr.on('data',function(data) {
+               err = data;
+            });
+            proc.on('close',function(exitCode) {
+               if (exitCode !== 0) {
+                   err = Error('exit code ' + exitCode);
+               } else if (r) {
+                   r = r.trim();
+                   cb(err,r);
+               }
+            });
+         }
+      };
    });
 };
 

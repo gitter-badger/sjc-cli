@@ -34,6 +34,7 @@ function bad(errorOrString) {
         error = Error('Badly Invoked Error with type: ' + typeof errorOrString);
         console.error(errorOrString);
     }
+    //console.log(error);
     throw new CLIError(error);
 }
 
