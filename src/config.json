@@ -4,7 +4,7 @@
 	},
 	"docker": {
 		"machine": {
-			"default": {
+			"funk": {
 				"tld": "dev"
 			}
 		}
