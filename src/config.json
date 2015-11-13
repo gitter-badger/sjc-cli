@@ -4,7 +4,7 @@
 	},
 	"docker": {
 		"machine": {
-			"funk": {
+			"orchestra": {
 				"tld": "dev"
 			}
 		}
