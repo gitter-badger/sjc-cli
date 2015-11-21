@@ -1,12 +1,18 @@
 "use strict";
 
 /**
- * Turns on Docker Machine
+ * Turns on Docker Machine and Reverse Proxy
  * @example: sjc up
  * 
  */
 
-var d = require('../../docker-toolbox.js');
+var d = require('../../docker-toolbox.js'),
+    child_process = require('child_process'),
+    params = {
+        command: process.env['HOME'] + '.sjc/reverseproxy/run.sh',
+        args: {},
+        options: {}
+    };
 
 var run = function (good, bad) {
     console.log("Note: Cold starting VirtualBox VM takes a minute.");
@@ -15,6 +21,15 @@ var run = function (good, bad) {
             bad(err);
         } else {
             good(data);
+            /*
+            child_process.execFile(params.command,params.args,params.options,function(err,stdout,stderr){
+                if (err) {
+                    bad(err);
+                } else {
+                    good(data + "\n" + stdout);
+                }
+            });
+            */
         }
     });
 };
