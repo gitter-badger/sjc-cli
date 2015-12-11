@@ -7,9 +7,9 @@
  */
 
 var d = require('../../docker-toolbox.js'),
-    child_process = require('child_process'),
+    childProcess = require('child_process'),
     params = {
-        command: process.env['HOME'] + '.sjc/reverseproxy/run.sh',
+        command: process.env.HOME + '.sjc/reverseproxy/run.sh',
         args: {},
         options: {}
     };

@@ -26,7 +26,7 @@ switch(subcommandName) {
     case 'start':
     subcommand = function(good,bad){
         var parameters = {
-            file: process.env['HOME'] + '/.sjc/reverseproxy/run.sh',
+            file: process.env.HOME + '/.sjc/reverseproxy/run.sh',
             args: [],
             options: []
         };

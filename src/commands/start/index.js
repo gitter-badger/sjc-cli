@@ -11,7 +11,7 @@
  */
 
 var dockerToolbox = require('../../docker-toolbox.js'),
-    child_process = require('child_process'),
+    childProcess = require('child_process'),
     fancy = require('../../fancy'),
     restClient = require('../../restClient.js'),
     d = dockerToolbox.d;
@@ -38,7 +38,7 @@ var run = function(good,bad) {
         if (!ambassador) {
             bad(Error('No ambassador specified in appdef. Orchestra doesn\'t know what service to expose'));
         } else {
-            child_process.execFile(params.command,params.args,params.options,function(err,stdout,stderr) {
+            childProcess.execFile(params.command,params.args,params.options,function(err,stdout,stderr) {
                 if (err) {
                     bad(err);
                 } else {

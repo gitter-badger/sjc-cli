@@ -13,7 +13,6 @@ var client = {
             'User-Agent': 'Ochestra Rest Client/0.0.1',
             'Content-Type': 'application/x-www-form-urlencoded'
         };
-        var headers = {};        
         var options = {
             hostname: 'app-registry.local.dev',
             port: 80,
@@ -26,7 +25,7 @@ var client = {
             cb(error,body);
         });
     },
-    get: function() {
+    get: function(cb) {
         var headers = {
             'User-Agent': 'Ochestra Rest Client/0.0.1'
         };

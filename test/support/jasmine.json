@@ -5,5 +5,7 @@
   ],
   "helpers": [
     "helpers/**/*.js"
-  ]
+  ],
+  "verbose": true,
+  "includeStackTrace": true
 }

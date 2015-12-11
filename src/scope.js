@@ -29,6 +29,7 @@ var dockerMachine = function(scope,cb) {
         //  or else the first listed one
         var commandargs = 'docker-machine active 2> /dev/null || docker-machine ls -q | head -n 1'.split(' ');
         var proc = childProcess.spawn( commandargs.shift() , commandargs);
+        var r = '';
         proc.stdout.setEncoding('utf8');
         proc.stderr.setEncoding('utf8');
         proc.stdout.on('data',function(data) {

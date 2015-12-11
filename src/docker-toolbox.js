@@ -33,7 +33,6 @@ var allServices = function(transformer,cb) {
             currentBranch = '';
          }
          d.listContainers(function(err,allContainers) {
-            var err = err;
             var data = null;
             var cols = [];
             var f = function(x) {
@@ -41,8 +40,9 @@ var allServices = function(transformer,cb) {
                switch (typeof x) {
                   case 'string':
                   r = x.trim();
+                  break;
                   default:
-                  r =x;
+                  r = x;
                }
                return r;
             };
@@ -159,7 +159,7 @@ var machineExec = function (args, cb) {
                }
             });
          }
-      };
+      }
    });
 };
 
