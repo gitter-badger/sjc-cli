@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 export SJC_ROOT=$HOME/.sjc;
 export SJC_CLI_ROOT=$SJC_ROOT/cli;
