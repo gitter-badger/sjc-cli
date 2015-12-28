@@ -1,6 +1,6 @@
 var commandName = 'dogsays';
 
-describe(commandName+" suite",function(){
+describe(commandName, function(){
     
     var scope = require(__dirname+'/../../src/scope.js');
     var CommandConstructor = require(__dirname+'/../../src/Command.js');

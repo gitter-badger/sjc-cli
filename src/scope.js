@@ -29,6 +29,7 @@ var dockerMachine = function(scope,cb) {
         //  or else the first listed one
         var commandargs = 'docker-machine active 2> /dev/null || docker-machine ls -q | head -n 1'.split(' ');
         var proc = childProcess.spawn( commandargs.shift() , commandargs);
+        var r = '';
         proc.stdout.setEncoding('utf8');
         proc.stderr.setEncoding('utf8');
         proc.stdout.on('data',function(data) {
@@ -92,18 +93,25 @@ var scope = {
                             cb(err,rev);
                         } else {
                             scope.repo.rev = rev;
-                            fs.readFile(process.cwd()+'/appdef.json',{encoding: "utf8"},function(err,appdefAsString) {
+                            git.getRemotes(function(err,remotes){
                                 if (err) {
-                                  cb(Error('There is no appdef file'),appdefAsString);
+                                    cb(err,null);
                                 } else {
-                                    try {
-                                        scope.appdef = JSON.parse(appdefAsString);
-                                    } catch(e) {
-                                        err = e;
-                                    }
-                                    cb(err,scope);
+                                    scope.repo.remotes = remotes;
+                                    fs.readFile(process.cwd()+'/appdef.json',{encoding: "utf8"},function(err,appdefAsString) {
+                                        if (err) {
+                                          cb(Error('There is no appdef file'),appdefAsString);
+                                        } else {
+                                            try {
+                                                scope.appdef = JSON.parse(appdefAsString);
+                                            } catch(e) {
+                                                err = e;
+                                            }
+                                            cb(err,scope);
+                                        }
+                                    });
                                 }
-                            });                    
+                            });
                         }
                     });
                 }

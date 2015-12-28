@@ -9,7 +9,7 @@
     },
     "validateLineBreaks": "LF",
     "esnext": true,
-    "disallowKeywords": ["with"],
+    "disallowKeywords": ["with","eval"],
     "disallowKeywordsOnNewLine": ["else"],
     "disallowMixedSpacesAndTabs": true,
     "disallowNewlineBeforeBlockStatements": true,
@@ -39,8 +39,5 @@
     "requireSpaceAfterBinaryOperators": true,
     "requireSpaceBeforeBinaryOperators": true,
     "requireSpaceBeforeBlockStatements": true,
-    "requireSpaceBeforeObjectValues": true,
-    "requireSpacesInFunction": {
-        "beforeOpeningCurlyBrace": true
-    }
+    "requireSpaceBeforeObjectValues": true
 }

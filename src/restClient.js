@@ -2,20 +2,20 @@
 
 var qs = require('qs');
 var request = require('request');
+var scope = require('./scope.js');
 
 const DEFAULT_ENDPOINT = 'app-registry.local.dev';
-const DEFAULT_PATH_ROOT = 'v0.0.1';
+const DEFAULT_PATH_ROOT = 'v' + scope.conf.orchestra.version;
 
 var client = {
     post: function(data,cb) {
         var postData = qs.stringify(data);
         var headers = {
-            'User-Agent': 'Ochestra Rest Client/0.0.1',
+            'User-Agent': 'Ochestra Rest Client/' + scope.conf.orchestra.version,
             'Content-Type': 'application/x-www-form-urlencoded'
         };
-        var headers = {};        
         var options = {
-            hostname: 'app-registry.local.dev',
+            hostname: DEFAULT_ENDPOINT,
             port: 80,
             headers: headers,
             url: 'http://' + DEFAULT_ENDPOINT + '/' + DEFAULT_PATH_ROOT + '/ambassadors',
@@ -26,12 +26,12 @@ var client = {
             cb(error,body);
         });
     },
-    get: function() {
+    get: function(cb) {
         var headers = {
-            'User-Agent': 'Ochestra Rest Client/0.0.1'
+            'User-Agent': 'Ochestra Rest Client/' + scope.conf.orchestra.version
         };
         var options = {
-            hostname: 'app-registry.local.dev',
+            hostname: DEFAULT_ENDPOINT,
             port: 80,
             headers: headers,
             url: 'http://' + DEFAULT_ENDPOINT + '/' + DEFAULT_PATH_ROOT + '/ambassadors',
@@ -43,10 +43,10 @@ var client = {
     },
     delete: function(cb) {
         var headers = {
-            'User-Agent': 'Ochestra Rest Client/0.0.1'
+            'User-Agent': 'Ochestra Rest Client/' + scope.conf.orchestra.version
         };
         var options = {
-            hostname: 'app-registry.local.dev',
+            hostname: DEFAULT_ENDPOINT,
             port: 80,
             headers: headers,
             url: 'http://' + DEFAULT_ENDPOINT + '/' + DEFAULT_PATH_ROOT + '/ambassadors',
