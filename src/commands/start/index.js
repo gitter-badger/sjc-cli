@@ -117,6 +117,7 @@ var run = function(good,bad) {
             }
             return 0;
         });
+
         var output = 'Running SJC App ' + scope.appdef.project.name + ', ' + scope.appdef.name;
         var doIt = function() {
             var service, createOptions={}, runOptions = {}, imageName, containerName;
@@ -128,16 +129,12 @@ var run = function(good,bad) {
                 runOptions = appDefToRunOptions(scope,service)
                 imageName = 'sean9999/'+scope.appdef.project.slug+'-'+scope.appdef.slug+'-'+service.name+':'+scope.repo.branch;
                 containerName = [scope.appdef.project.slug, scope.appdef.slug, scope.repo.branch, service.name].join('-');
-                dockerToolbox.docker.getContainer(containerName,function(err,c){
-                    console.log('A',c);
+                var c = dockerToolbox.docker.getContainer(containerName);
+                if (c) {
                     c.stop(function(err,data) {
-                        console.log('B',data);
                         c.remove(function(err,data){
-                            console.log('C',data);
                             dockerToolbox.docker.createContainer(createOptions,function(err,container){
-                                console.log('D',container);
                                 container.start(runOptions,function(err,data) {
-                                    console.log('E',data);
                                     restClient.post(data,function(err,ok) {
                                         if (err) {
                                             console.trace(err);
@@ -151,7 +148,21 @@ var run = function(good,bad) {
                             });
                         });
                     });
-                });
+                } else {
+                    dockerToolbox.docker.createContainer(createOptions,function(err,container){
+                        container.start(runOptions,function(err,data) {
+                            restClient.post(data,function(err,ok) {
+                                if (err) {
+                                    console.trace(err);
+                                    bad(fancy('The container was not started','error'));
+                                } else {
+
+                                }
+                                good(fancy('The container was started','success'));    
+                            });
+                        });
+                    });
+                }
             } else {
                 good(output);
             }
