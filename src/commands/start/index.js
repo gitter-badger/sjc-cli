@@ -129,10 +129,15 @@ var run = function(good,bad) {
                 imageName = 'sean9999/'+scope.appdef.project.slug+'-'+scope.appdef.slug+'-'+service.name+':'+scope.repo.branch;
                 containerName = [scope.appdef.project.slug, scope.appdef.slug, scope.repo.branch, service.name].join('-');
                 dockerToolbox.docker.getContainer(containerName,function(err,c){
-                    c.stop(function(err,data){
+                    console.log('A',c);
+                    c.stop(function(err,data) {
+                        console.log('B',data);
                         c.remove(function(err,data){
+                            console.log('C',data);
                             dockerToolbox.docker.createContainer(createOptions,function(err,container){
+                                console.log('D',container);
                                 container.start(runOptions,function(err,data) {
+                                    console.log('E',data);
                                     restClient.post(data,function(err,ok) {
                                         if (err) {
                                             console.trace(err);
