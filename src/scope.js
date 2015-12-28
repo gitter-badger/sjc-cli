@@ -7,6 +7,22 @@ var conf = require('./config.json');
 var git = require('./git.js');
 var childProcess = require('child_process');
 
+//  @todo: refactor how defaults, env vars, options, are set. needs to be simpler
+if ( "orchestra" in conf.docker.machine ) {
+
+    var quotes = /"/g;
+
+    if ( "ORCHESTRA_HOST_TLD" in process.env ) {
+        conf.docker.machine.orchestra.tld = process.env['ORCHESTRA_HOST_TLD'].replace(quotes,'');
+    }
+    if ( "ORCHESTRA_HOST_FQDN" in process.env ) {
+        conf.docker.machine.orchestra.fqdn = process.env['ORCHESTRA_HOST_FQDN'].replace(quotes,'');
+    }
+    if ( "ORCHESTRA_HOST_ALIAS" in process.env ) {
+        conf.docker.machine.orchestra.alias = process.env['ORCHESTRA_HOST_ALIAS'].replace(quotes,'');
+    }
+}
+
 var dockerMachine = function(scope,cb) {
     // gets the docker-machine representing the local machine
     var dname, tld, localmachine, err=null;
