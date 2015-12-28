@@ -134,6 +134,11 @@ var run = function(good,bad) {
                     c.stop(function(err,data) {
                         c.remove(function(err,data){
                             dockerToolbox.docker.createContainer(createOptions,function(err,container){
+                                if (err) {
+                                    console.trace(err);
+                                    bad(err);    
+                                }
+                                
                                 container.start(runOptions,function(err,data) {
                                     restClient.post(data,function(err,ok) {
                                         if (err) {
