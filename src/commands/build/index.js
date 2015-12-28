@@ -19,16 +19,6 @@ var run = function(good,bad) {
             if (serviceNames.length) {
                 serviceName = serviceNames.shift();
                 output += "\n" + "Bulding " + serviceName + "...\n";
-                /*
-                params = {
-                    command: "docker build -t sean9999/" + [scope.appdef.project.slug,scope.appdef.slug,serviceName].join('-') + ':' + scope.repo.branch + ' ' + scope.repo.remotes.origin + '#' + scope.repo.branch + ':services/' + serviceName,
-                    options: {
-                        maxBuffer: 1024 * 1024,
-                        shell: '/bin/bash'
-                    }
-                };
-                */
-
                 params = {
                     command: "docker build -t sean9999/" + [scope.appdef.project.slug,scope.appdef.slug,serviceName].join('-') + ':' + scope.repo.branch + ' ' + process.cwd() + '/services/' + serviceName,
                     options: {
@@ -36,7 +26,6 @@ var run = function(good,bad) {
                         shell: '/bin/bash'
                     }
                 };
-
                 proc.exec(params.command, params.options, function(err,stdout,stderr){
                     if (err) {
                         console.trace(err);

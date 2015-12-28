@@ -117,7 +117,6 @@ var run = function(good,bad) {
             }
             return 0;
         });
-
         var output = 'Running SJC App ' + scope.appdef.project.name + ', ' + scope.appdef.name;
         var doIt = function() {
             var service, createOptions={}, runOptions = {}, imageName, containerName;
@@ -138,7 +137,6 @@ var run = function(good,bad) {
                                     console.trace(err);
                                     bad(err);    
                                 }
-                                
                                 container.start(runOptions,function(err,data) {
                                     restClient.post(data,function(err,ok) {
                                         if (err) {
@@ -161,9 +159,8 @@ var run = function(good,bad) {
                                     console.trace(err);
                                     bad(fancy('The container was not started','error'));
                                 } else {
-
+                                    good(fancy('The container was started','success'));    
                                 }
-                                good(fancy('The container was started','success'));    
                             });
                         });
                     });

@@ -63,10 +63,11 @@ var allServices = function(transformer,cb) {
                      var port = null;
                      var isAmbassador = container.Labels['io.sjc.orchestra.service.ambassador'];
                      var isSelected = (container.Labels['io.sjc.orchestra.ref'].trim() == currentBranch.trim());
+                     var projectSlug = container.Labels['io.sjc.orchestra.project.slug'] || container.Labels['io.sjc.orchestra.project'];
                      appService = {
                         id: container.Id,
                         created: container.Created,
-                        project: f(container.Labels['io.sjc.orchestra.project'] || container.Labels['io.sjc.orchestra.project.name']),
+                        project: f(projectSlug),
                         app: f(container.Labels['io.sjc.orchestra.app.slug']),
                         branch: f(container.Labels['io.sjc.orchestra.ref']),
                         selected: isSelected,
