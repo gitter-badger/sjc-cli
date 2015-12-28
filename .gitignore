@@ -224,3 +224,5 @@ _Pvt_Extensions
 .dockerignore
 .npmignore
 npm-debug.log
+
+*.orig
