@@ -9,9 +9,7 @@ var childProcess = require('child_process');
 
 //  @todo: refactor how defaults, env vars, options, are set. needs to be simpler
 if ( "orchestra" in conf.docker.machine ) {
-
     var quotes = /"/g;
-
     if ( "ORCHESTRA_HOST_TLD" in process.env ) {
         conf.docker.machine.orchestra.tld = process.env['ORCHESTRA_HOST_TLD'].replace(quotes,'');
     }

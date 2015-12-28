@@ -24,7 +24,9 @@ var appDefToCreateOptions = function(scope,service) {
     }
 
     var r = {},
-        containerName = [scope.appdef.project.slug, scope.appdef.slug, scope.repo.branch, service.name].join('-');
+        containerName = [scope.appdef.project.slug, scope.appdef.slug, scope.repo.branch, service.name].join('-'),
+        hostConfig = {};
+
     /*
     if ("links" in service) {
         r.Links = service.links.map(function(linkname){
@@ -33,7 +35,12 @@ var appDefToCreateOptions = function(scope,service) {
             return [containerName,alias].join(':');
         });
     }
+    if ("links" in service) {
+        hostConfig.links = service.links;
+    }
     */
+
+
     if ("volumes" in service) {
         r.Volumes = {};
         service.volumes.forEach(function(volumeMap){
@@ -41,17 +48,8 @@ var appDefToCreateOptions = function(scope,service) {
             r.Volumes[firstPart] = {};
         });
         if (service.volumeMounted) {
-            r.Mounts = service.volumes.map(function(volumeMap){
-                var vpieces = volumeMap.split(':').filter(function(piece){
-                    return (piece);
-                });
-                var record = {
-                    "Source": vpieces[0],
-                    "Destination": vpieces[1],
-                    "Mode": (vpieces[2] || "rw"),
-                    "RW": ( vpieces.length === 2 || vpieces[2] === "rw" )
-                };
-                return record;
+            hostConfig.Binds = service.volumes.map(function(volumeMap){
+                return volumeMap.replace(/^\./,process.cwd());
             });
         }
     }
@@ -63,6 +61,7 @@ var appDefToCreateOptions = function(scope,service) {
         });
         if (service.ambassador) {
             r.PublishAllPorts = true;
+            hostConfig.PublishAllPorts = true;
         }
     }
     r.Labels = {
@@ -79,16 +78,7 @@ var appDefToCreateOptions = function(scope,service) {
     };
     r.Image = 'sean9999/'+scope.appdef.project.slug+'-'+scope.appdef.slug+'-'+service.name+':'+scope.repo.branch;
     r.name = containerName;
-    //r.PublishAllPorts = service.ambassador || false;
-    //r.AttachStdin = false;
-    //r.AttachStdout = false;
-    //r.AttachStderr = false;
-    /*
-    r.ExtraHosts = [
-        scope.repo.rev,
-        containerName
-    ];
-    */
+    r.HostConfig = hostConfig;
     return r;
 };
 

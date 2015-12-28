@@ -4,7 +4,7 @@ var qs = require('qs');
 var request = require('request');
 var scope = require('./scope.js');
 
-const DEFAULT_ENDPOINT = process.env['ORCHESTRA_HOST_TLD'] || 'app-registry.local.dev';
+const DEFAULT_ENDPOINT = 'app-registry.' + scope.conf.docker.machine.orchestra.tld;
 const DEFAULT_PATH_ROOT = 'v' + scope.conf.orchestra.version;
 
 var client = {

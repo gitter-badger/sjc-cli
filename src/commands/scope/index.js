@@ -7,13 +7,7 @@ var util = require('util');
 var run = function(good,bad) {
     var scope = this;
     this.enhance(function(err,newscope){
-
-        dockerToolbox.docker.listContainers(function(e,c){
-            console.log(util.inspect(c,{showHidden: true,depth:null,colors:true}));
-            good(scope);
-        });
-
-        //good(newscope);
+        good(console.log(util.inspect(scope,{showHidden: true,depth:null,colors:true})));
     });
 };
 
