@@ -33,6 +33,7 @@ var allServices = function(transformer,cb) {
             currentBranch = '';
          }
          d.listContainers(function(err,allContainers) {
+
             var data = null;
             var cols = [];
             var f = function(x) {
@@ -65,7 +66,7 @@ var allServices = function(transformer,cb) {
                      appService = {
                         id: container.Id,
                         created: container.Created,
-                        project: f(container.Labels['io.sjc.orchestra.project']),
+                        project: f(container.Labels['io.sjc.orchestra.project'] || container.Labels['io.sjc.orchestra.project.name']),
                         app: f(container.Labels['io.sjc.orchestra.app.slug']),
                         branch: f(container.Labels['io.sjc.orchestra.ref']),
                         selected: isSelected,

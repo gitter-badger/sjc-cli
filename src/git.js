@@ -15,4 +15,17 @@ git.currentRev = function(cb) {
     });
 };
 
+git.getRemotes = function(cb) {
+    proc.exec('git remote -v | tr -d "\n"',function(error, stdout, stderr){
+        var remotes = {};
+        stdout.split("\n").forEach(function(row) {
+            var cols = row.split(/\s+/);
+            var name = cols[0].trim();
+            var url = cols[1].trim()
+            remotes[name] = url;
+        });
+        cb(stderr, remotes);
+    });
+};
+
 module.exports = git;

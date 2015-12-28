@@ -93,18 +93,25 @@ var scope = {
                             cb(err,rev);
                         } else {
                             scope.repo.rev = rev;
-                            fs.readFile(process.cwd()+'/appdef.json',{encoding: "utf8"},function(err,appdefAsString) {
+                            git.getRemotes(function(err,remotes){
                                 if (err) {
-                                  cb(Error('There is no appdef file'),appdefAsString);
+                                    cb(err,null);
                                 } else {
-                                    try {
-                                        scope.appdef = JSON.parse(appdefAsString);
-                                    } catch(e) {
-                                        err = e;
-                                    }
-                                    cb(err,scope);
+                                    scope.repo.remotes = remotes;
+                                    fs.readFile(process.cwd()+'/appdef.json',{encoding: "utf8"},function(err,appdefAsString) {
+                                        if (err) {
+                                          cb(Error('There is no appdef file'),appdefAsString);
+                                        } else {
+                                            try {
+                                                scope.appdef = JSON.parse(appdefAsString);
+                                            } catch(e) {
+                                                err = e;
+                                            }
+                                            cb(err,scope);
+                                        }
+                                    });
                                 }
-                            });                    
+                            });
                         }
                     });
                 }

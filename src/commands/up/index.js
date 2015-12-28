@@ -11,7 +11,9 @@ var d = require('../../docker-toolbox.js'),
     params = {
         command: process.env.HOME + '.sjc/reverseproxy/run.sh',
         args: {},
-        options: {}
+        options: {
+            cwd: process.env.HOME + '.sjc/reverseproxy'
+        }
     };
 
 var run = function (good, bad) {
@@ -20,16 +22,15 @@ var run = function (good, bad) {
         if (err) {
             bad(err);
         } else {
-            good(data);
-            /*
-            child_process.execFile(params.command,params.args,params.options,function(err,stdout,stderr){
+            //good(data);
+            childProcess.execFile(params.command,params.args,params.options,function(err,stdout,stderr){
+                console.log(err,stdout,stderr);
                 if (err) {
                     bad(err);
                 } else {
                     good(data + "\n" + stdout);
                 }
             });
-            */
         }
     });
 };
