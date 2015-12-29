@@ -7,8 +7,6 @@ var scope = require('./scope.js');
 const DEFAULT_ENDPOINT = 'app-registry.' + scope.conf.docker.machine.orchestra.tld;
 const DEFAULT_PATH_ROOT = 'v' + scope.conf.orchestra.version;
 
-console.log('DEFAULT_ENDPOINT',DEFAULT_ENDPOINT);
-
 var client = {
     post: function(data,cb) {
         var postData = qs.stringify(data);

@@ -29,6 +29,7 @@ var run = function(good,bad) {
                 var p = proc.spawn(params.command,params.args,params.options);
                 p.stdout.setEncoding('utf8');
                 p.stderr.setEncoding('utf8');
+                process.stdout.write( "\n" + [scope.appdef.project.name,scope.appdef.name,scope.repo.branch,serviceName].join(' ☞ ') + "\n" );
                 p.stdout.on('data', function(data){
                     process.stdout.write( colors.green(data) );
                 });
