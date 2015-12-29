@@ -27,7 +27,6 @@ var appDefToCreateOptions = function(scope,service) {
         containerName = [scope.appdef.project.slug, scope.appdef.slug, scope.repo.branch, service.name].join('-'),
         hostConfig = {};
 
-    /*
     if ("links" in service) {
         r.Links = service.links.map(function(linkname){
             var containerName = [scope.appdef.project.slug, scope.appdef.slug, scope.repo.branch, linkname].join('-');
@@ -36,10 +35,8 @@ var appDefToCreateOptions = function(scope,service) {
         });
     }
     if ("links" in service) {
-        hostConfig.links = service.links;
+        hostConfig.links = r.Links;
     }
-    */
-
 
     if ("volumes" in service) {
         r.Volumes = {};
@@ -98,7 +95,8 @@ var run = function(good,bad) {
             var service = scope.appdef.services[serviceName];
             service.name = serviceName;
             return service;
-        }).filter(function(a,b){
+        });
+        services.sort(function(a,b){
             if ( "ambassador" in a && a.ambassador === true ) {
                 return 1;
             }
@@ -107,12 +105,12 @@ var run = function(good,bad) {
             }
             return 0;
         });
-        var output = 'Running SJC App ' + scope.appdef.project.name + ', ' + scope.appdef.name;
+        var output = 'Running SJC App ' + scope.appdef.project.name + ', ' + scope.appdef.name + ', branch: ' + scope.repo.branch;
         var doIt = function() {
             var service, createOptions={}, runOptions = {}, imageName, containerName;
             if (services.length) {
+                output += "\n";
                 service = services.shift();
-                output = "\n" + "Service: " + service.name + "\n";
                 runOptions.name = [scope.appdef.project.slug, scope.appdef.slug, scope.repo.branch, service.name].join('-');
                 createOptions = appDefToCreateOptions(scope,service);
                 runOptions = appDefToRunOptions(scope,service)
@@ -131,11 +129,12 @@ var run = function(good,bad) {
                                     restClient.post(data,function(err,ok) {
                                         if (err) {
                                             console.trace(err);
-                                            bad(fancy('The container was not started','error'));
+                                            bad(fancy('Service '+service.name+' was not started','error'));
                                         } else {
-
+                                            //good(fancy('The container was started','success'));
+                                            output += 'Service ' + service.name + ' was started.';
+                                            doIt();
                                         }
-                                        good(fancy('The container was started','success'));    
                                     });
                                 });
                             });
@@ -147,16 +146,18 @@ var run = function(good,bad) {
                             restClient.post(data,function(err,ok) {
                                 if (err) {
                                     console.trace(err);
-                                    bad(fancy('The container was not started','error'));
+                                    bad(fancy('Service '+service.name+' was not started','error'));
                                 } else {
-                                    good(fancy('The container was started','success'));    
+                                    //good(fancy('The container was started','success'));
+                                    output += 'Service ' + service.name + ' was started.';
+                                    doIt();
                                 }
                             });
                         });
                     });
                 }
             } else {
-                good(output);
+                good(output + "\n" + fancy('Orchestra app '+scope.appdef.project.name+'☞ '+scope.appdef.name+':'+scope.repo.branch+' now running','success'));
             }
         };
         doIt();

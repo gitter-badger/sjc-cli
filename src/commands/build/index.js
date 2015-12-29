@@ -8,35 +8,45 @@
 
 var proc = require('child_process');
 var git = require('../../git.js');
+var colors = require('colors/safe');
+var fancy = require('../../fancy.js');
 
 var run = function(good,bad) {
     var scope = this;
-    var output = 'Beginning container build work...' + "\n\n";
     scope.enhance(function() {
         var serviceNames = Object.keys(scope.appdef.services);
+        var globalExitCode;
+        var finalMsg;
         var goAhead = function(){
             var serviceName, params;
             if (serviceNames.length) {
                 serviceName = serviceNames.shift();
-                output += "\n" + "Bulding " + serviceName + "...\n";
                 params = {
-                    command: "docker build -t sean9999/" + [scope.appdef.project.slug,scope.appdef.slug,serviceName].join('-') + ':' + scope.repo.branch + ' ' + process.cwd() + '/services/' + serviceName,
-                    options: {
-                        maxBuffer: 1024 * 1024,
-                        shell: '/bin/bash'
-                    }
+                    command: "docker",
+                    args: ['build', '-t', "sean9999/"+[scope.appdef.project.slug,scope.appdef.slug,serviceName].join('-')+':'+scope.repo.branch, process.cwd()+'/services/'+serviceName],
+                    options: {}
                 };
-                proc.exec(params.command, params.options, function(err,stdout,stderr){
-                    if (err) {
-                        console.trace(err);
-                        bad(stderr);
-                    } else {
-                        output += stdout;
-                        goAhead();
-                    }
+                var p = proc.spawn(params.command,params.args,params.options);
+                p.stdout.setEncoding('utf8');
+                p.stderr.setEncoding('utf8');
+                p.stdout.on('data', function(data){
+                    process.stdout.write( colors.green(data) );
+                });
+                p.stderr.on('data', function (data) {
+                    process.stderr.write( colors.red(data) );
+                });
+                p.on('close', function(exitCode){
+                    globalExitCode = exitCode;
+                    goAhead();
                 });
             } else {
-                good(output);
+                if (globalExitCode === 0) {
+                    finalMsg = 'Orchestra app ' + scope.appdef.project.name + '.' + scope.appdef.name + ' was built successfully'; 
+                    good(fancy(finalMsg,'success'));
+                } else {
+                    finalMsg = 'Process exited with code ' + globalExitCode;
+                    bad(fancy(finalMsg,'error'));
+                }
             }
         };
         goAhead();

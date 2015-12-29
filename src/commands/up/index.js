@@ -17,12 +17,12 @@ var d = require('../../docker-toolbox.js'),
     };
 
 var run = function (good, bad) {
-    console.log("Note: Cold starting VirtualBox VM takes a minute.");
+    console.log("Note: Cold starting VirtualBox VM takes a minute...");
+    var scope = this;
     d.machine.start(function(err,data) {
         if (err) {
             bad(err);
         } else {
-            //good(data);
             childProcess.execFile(params.command,params.args,params.options,function(err,stdout,stderr){
                 console.log(err,stdout,stderr);
                 if (err) {
