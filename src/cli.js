@@ -13,12 +13,12 @@ function good(stuff) {
     //  handle good return data
     switch (typeof stuff) {
         case 'function':
-            stuff();
+        stuff();
         break;
         case 'number':
         case 'string':
         case 'object':
-            console.log(stuff);
+        console.log(stuff);
         break;
     }
 }

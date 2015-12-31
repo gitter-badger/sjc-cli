@@ -24,7 +24,7 @@ var run = function(good,bad) {
                 containerImageName = "sean9999/"+[scope.appdef.project.slug,scope.appdef.slug,serviceName].join('-')+':'+scope.repo.branch;
                 params = {
                     command: "docker",
-                    args: ['build', '--force-rm', '-t', containerImageName, process.cwd()+'/services/'+serviceName],
+                    args: ['build', '-t', containerImageName, process.cwd()+'/services/'+serviceName],
                     options: {
                         cwd: process.cwd()+'/services/'+serviceName
                     }
