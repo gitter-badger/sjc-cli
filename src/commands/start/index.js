@@ -59,6 +59,9 @@ var appDefToCreateOptions = function(scope,service) {
             hostConfig.PublishAllPorts = true;
         }
     }
+    if ("command" in service) {
+        r.Cmd = service.command;
+    }
     r.Labels = {
         "io.sjc.orchestra.version": scope.appdef.orchestra.version,
         "io.sjc.orchestra.project.name": scope.appdef.project.name,
