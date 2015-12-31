@@ -33,7 +33,7 @@ var allServices = function(transformer,cb) {
             currentBranch = '';
          }
          d.listContainers(function(err,allContainers) {
-	    var err = err;
+            var err = err;
             var data = null;
             var cols = [];
             var f = function(x) {
@@ -42,7 +42,7 @@ var allServices = function(transformer,cb) {
                   case 'string':
                   r = x.trim();
                   default:
-		  r =x;
+                  r =x;
                }
                return r;
             };
@@ -172,13 +172,48 @@ var D = {
          machineExec(['status'], cb);
       },
       start: function (cb) {
-         machineExec(['start'], cb);
+         machineExec(['status'],function(err,status){
+            if (status === 'Running') {
+               cb(null,status);
+            } else {
+               machineExec(['start'], cb);      
+            }
+         });
       },
       stop: function (cb) {
          machineExec(['stop'], cb);
       },
       ip: function(cb) {
         machineExec(['ip'], cb); 
+      },
+      getEnv: function(cb) {
+         scope.dockerMachine(function(err,localMachine) {
+            if (err) {
+               cb(err,null);
+            } else if ("env" in localMachine) {
+               cb(null,localMachine.env);
+            } else {
+               childProcess.exec('docker-machine env '+localMachine.name,function(error, stdout, stderr) {
+                  if (error) {
+                     cb(error,null);
+                  } else {
+                     var env = {};
+                     stdout.split('\n').filter(function(row){
+                         return ( /^\s*export\s/.test(row) );
+                     }).forEach(function(row){
+                         var tokens = row.replace('export ','').trim().split('=');
+                         var k = tokens[0];
+                         var v = tokens[1].replace(/^"|"$/g,'');
+                         env[k]=v;
+                     });
+                     env.PATH = process.env.PATH;
+                     env.USER = process.env.USER;
+                     localMachine.env = env;
+                     cb(null,env);
+                  }
+               });
+            }
+         });
       }
    },
    getContainer: function (token, cb) {

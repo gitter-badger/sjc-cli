@@ -17,12 +17,10 @@ var dockerToolbox = require('../../docker-toolbox.js'),
     d = dockerToolbox.d;
 
 var appDefToCreateOptions = function(scope,service) {
-
     service.volumeMounted = true;
     if (scope.args.length && scope.args[0] === '--hard') {
         service.volumeMounted = false;
     }
-
     var r = {},
         containerName = [scope.appdef.project.slug, scope.appdef.slug, scope.repo.branch, service.name].join('-'),
         hostConfig = {};

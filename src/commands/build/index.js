@@ -18,13 +18,16 @@ var run = function(good,bad) {
         var globalExitCode;
         var finalMsg;
         var goAhead = function(){
-            var serviceName, params;
+            var serviceName, params, containerImageName;
             if (serviceNames.length) {
                 serviceName = serviceNames.shift();
+                containerImageName = "sean9999/"+[scope.appdef.project.slug,scope.appdef.slug,serviceName].join('-')+':'+scope.repo.branch;
                 params = {
                     command: "docker",
-                    args: ['build', '-t', "sean9999/"+[scope.appdef.project.slug,scope.appdef.slug,serviceName].join('-')+':'+scope.repo.branch, process.cwd()+'/services/'+serviceName],
-                    options: {}
+                    args: ['build', '--force-rm', '-t', containerImageName, process.cwd()+'/services/'+serviceName],
+                    options: {
+                        cwd: process.cwd()+'/services/'+serviceName
+                    }
                 };
                 var p = proc.spawn(params.command,params.args,params.options);
                 p.stdout.setEncoding('utf8');
