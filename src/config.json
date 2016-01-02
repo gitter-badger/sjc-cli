@@ -5,7 +5,7 @@
 	"docker": {
 		"machine": {
 			"orchestra": {
-				"tld": "dev"
+				"tld": "snapshots.dpm.sjc.io"
 			}
 		}
 	},
