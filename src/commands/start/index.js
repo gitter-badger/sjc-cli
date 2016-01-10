@@ -62,6 +62,14 @@ var appDefToCreateOptions = function(scope,service) {
     if ("command" in service) {
         r.Cmd = service.command;
     }
+    if ("environment" in service) {
+        r.Env = [];
+        for (let k in service.environment) {
+            if (service.environment[k].length && service.environment[k].indexOf('#') !== 0) {
+                r.Env.push(k+'='+service.environment[k]);    
+            }
+        }
+    }
     r.Labels = {
         "io.sjc.orchestra.version": scope.appdef.orchestra.version,
         "io.sjc.orchestra.project.name": scope.appdef.project.name,
