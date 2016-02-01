@@ -166,7 +166,7 @@ var run = function(good,bad) {
                     });
                 }
             } else {
-                good(output + "\n" + fancy('Orchestra app '+scope.appdef.project.name+'☞ '+scope.appdef.name+':'+scope.repo.branch+' now running','success'));
+                good(output + "\n" + fancy('Orchestra app '+scope.appdef.project.name+' ☞  '+scope.appdef.name+' : '+scope.repo.branch+' now running','success'));
             }
         };
         doIt();
