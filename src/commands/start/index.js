@@ -14,7 +14,8 @@ var dockerToolbox = require('../../docker-toolbox.js'),
     childProcess = require('child_process'),
     fancy = require('../../fancy'),
     restClient = require('../../restClient.js'),
-    d = dockerToolbox.d;
+    d = dockerToolbox.d,
+    stream = require('stream');
 
 var appDefToCreateOptions = function(scope,service) {
     service.volumeMounted = true;
@@ -114,6 +115,9 @@ var run = function(good,bad) {
             }
             return 0;
         });
+
+        var ambassador = services[ services.length - 1 ];
+
         var output = 'Running SJC App ' + scope.appdef.project.name + ', ' + scope.appdef.name + ', branch: ' + scope.repo.branch;
         var doIt = function() {
             var service, createOptions={}, runOptions = {}, imageName, containerName;
@@ -132,7 +136,10 @@ var run = function(good,bad) {
                             dockerToolbox.docker.createContainer(createOptions,function(err,container){
                                 if (err) {
                                     console.trace(err);
-                                    bad(err);    
+                                    bad(err);
+                                }
+                                if (service.ambassador) {
+                                    ambassador.container = container;
                                 }
                                 container.start(runOptions,function(err,data) {
                                     restClient.post(data,function(err,ok) {
@@ -151,6 +158,9 @@ var run = function(good,bad) {
                     });
                 } else {
                     dockerToolbox.docker.createContainer(createOptions,function(err,container){
+                        if (service.ambassador) {
+                            ambassador.container = container;
+                        }
                         container.start(runOptions,function(err,data) {
                             restClient.post(data,function(err,ok) {
                                 if (err) {
@@ -166,7 +176,53 @@ var run = function(good,bad) {
                     });
                 }
             } else {
-                good(output + "\n" + fancy('Orchestra app '+scope.appdef.project.name+' ☞  '+scope.appdef.name+' : '+scope.repo.branch+' now running','success'));
+                if (scope.args.length && scope.args.indexOf('--watch') > -1 ) {
+                    console.log(output + "\n" + fancy('Orchestra app '+scope.appdef.project.name+' ☞  '+scope.appdef.name+' : '+scope.repo.branch+' now running','success'));
+                    
+                    //  stream logs from the ambassador
+                    //  @TODO: allow the user to choose to stream logs from another service, or all services
+                    var logStream = new stream.PassThrough();
+                    logStream.on('data', function(chunk){
+                        process.stdout.write(chunk);
+                    });
+                    ambassador.container.logs(
+                        {
+                            follow: true,
+                            stdout: true,
+                            stderr: true
+                        },
+                        function(err, stream){
+                            if(err) {
+                                return logger.error(err.message);
+                            }
+                            ambassador.container.modem.demuxStream(stream, logStream, logStream);
+
+                            stream.on('finish',function(){
+                                console.log('FINISH!!!');
+                            });
+
+                            stream.on('error',function(code){
+                                console.log('ERROR',code);
+                            });
+
+                            stream.on('close', function() {
+                                console.log('THE STREAM WAS CLOSED');
+                            });
+
+                            stream.on('end', function() {
+                                logStream.end(' THE END!!!! ');
+                                good('FOOLISH NANCY!');
+                            });
+                        }
+                    );
+                    process.on('SIGINT', () => {
+                        console.log('Exiting orchestra log watcher');
+                        good(true);
+                        process.exit();
+                    });
+                } else {
+                    good(output + "\n" + fancy('Orchestra app '+scope.appdef.project.name+' ☞  '+scope.appdef.name+' : '+scope.repo.branch+' now running','success'));
+                }
             }
         };
         doIt();
