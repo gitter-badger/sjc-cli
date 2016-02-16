@@ -196,22 +196,18 @@ var run = function(good,bad) {
                                 return logger.error(err.message);
                             }
                             ambassador.container.modem.demuxStream(stream, logStream, logStream);
-
                             stream.on('finish',function(){
                                 console.log('FINISH!!!');
                             });
-
                             stream.on('error',function(code){
                                 console.log('ERROR',code);
                             });
-
                             stream.on('close', function() {
                                 console.log('THE STREAM WAS CLOSED');
                             });
-
                             stream.on('end', function() {
-                                logStream.end(' THE END!!!! ');
-                                good('FOOLISH NANCY!');
+                                logStream.end('\n');
+                                good( fancy('Stream ended','error') );
                             });
                         }
                     );
