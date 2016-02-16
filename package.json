@@ -1,6 +1,6 @@
 {
   "name": "@sean9999/sjc-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "command-line utility for SJC developers and ops engineers",
   "main": "cli.sh",
   "scripts": {
