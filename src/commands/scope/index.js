@@ -1,7 +1,5 @@
 "use strict";
 
-var dockerToolbox = require('../../docker-toolbox.js');
-
 var util = require('util');
 
 var run = function(good,bad) {
