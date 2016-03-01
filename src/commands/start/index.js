@@ -49,6 +49,11 @@ var appDefToCreateOptions = function(scope,service) {
             });
         }
     }
+    if ("volumes_from" in service) {
+        hostConfig.VolumesFrom = service['volumes_from'].map(function(sname){
+            return [scope.appdef.project.slug, scope.appdef.slug, scope.repo.branch, sname].join('-');
+        });
+    }
     if ("ports" in service) {
         r.ExposedPorts = {};
         service.ports.forEach(function(port){
