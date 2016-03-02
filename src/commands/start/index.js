@@ -76,6 +76,9 @@ var appDefToCreateOptions = function(scope,service) {
             }
         }
     }
+    if ("user" in service) {
+        r.User = service.user;
+    }
     r.Labels = {
         "io.sjc.orchestra.version": scope.appdef.orchestra.version,
         "io.sjc.orchestra.project.name": scope.appdef.project.name,
