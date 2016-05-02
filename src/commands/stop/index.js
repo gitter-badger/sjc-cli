@@ -13,26 +13,44 @@ var restClient = require('../../restClient.js');
 
 var run = function(good,bad) {
     var scope = this, permalink = null;
-    d.getContainer(this.args[0],function(err,container) {
-        if (err) {
-            bad(err);
-        } else {
-            if (container === null) {
-                bad(Error('The container could not be found'));
+
+    switch (this.args[0]) {
+
+        case '--all':
+        d.getRunningServices(function(err,services){
+            if (err) {
+                bad(err);
             } else {
-                d.docker.getContainer(container.id).stop(function(err,data) {
-                    if (err) {
-                        bad(err);
-                    } else {
-                        permalink = [container.project,container.app,container.branch,container.service,scope.conf.localTLD].join('.');
-                        restClient.delete(function(err,ok){
-                            good(fancy('The container was stopped','success'));    
-                        });
-                    }
-                });
+                //  loop through all services, delete them all, return success at the end.
+                good('not implemeneted yet');
             }
-        }
-    });
+        });
+        break;
+
+        default:
+        d.getContainer(this.args[0],function(err,container) {
+            if (err) {
+                bad(err);
+            } else {
+                if (container === null) {
+                    bad(Error('The container could not be found'));
+                } else {
+                    d.docker.getContainer(container.id).stop(function(err,data) {
+                        if (err) {
+                            bad(err);
+                        } else {
+                            permalink = [container.project,container.app,container.branch,container.service,scope.conf.localTLD].join('.');
+                            restClient.delete(function(err,ok){
+                                good(fancy('The container was stopped','success'));    
+                            });
+                        }
+                    });
+                }
+            }
+        });
+        break;
+    }
+
 };
 
 module.exports = function(Command,scope) {
