@@ -22,7 +22,7 @@ var run = function(good,bad) {
                 bad(err);
             } else {
                 //  loop through all services, delete them all, return success at the end.
-                good('not implemeneted yet');
+                good(fancy('not implemeneted yet','error'));
             }
         });
         break;
