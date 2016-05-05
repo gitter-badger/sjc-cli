@@ -1,5 +1,7 @@
 # SJC cli
 
+[![Join the chat at https://gitter.im/stjosephcontent/sjc-cli](https://badges.gitter.im/stjosephcontent/sjc-cli.svg)](https://gitter.im/stjosephcontent/sjc-cli?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A command-line utility for SJC
 
 ## Installation
